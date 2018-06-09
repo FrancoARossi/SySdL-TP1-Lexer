@@ -15,7 +15,7 @@ def a_re1 (tokens, acu):
         else:
             s = -1
             break
-    return (s == 3, tokens)
+    return (s == 3)
 
 def a_re2 (tokens, acu):
     s = 0
@@ -34,7 +34,7 @@ def a_re2 (tokens, acu):
         else:
             s = -1
             break
-    return (s == 5, tokens)
+    return (s == 5)
 
 def a_re3 (tokens, acu):
     s = 0
@@ -47,7 +47,7 @@ def a_re3 (tokens, acu):
         else:
             s = -1
             break
-    return (s == 2, tokens)
+    return (s == 2)
 
 def a_re4 (tokens, acu):
     s = 0
@@ -64,7 +64,7 @@ def a_re4 (tokens, acu):
         else:
             s = -1
             break
-    return (s == 4, tokens)
+    return (s == 4)
 
 def a_re5 (tokens, acu):
     s = 0
@@ -79,7 +79,7 @@ def a_re5 (tokens, acu):
         else:
             s = -1
             break
-    return (s == 3, tokens)
+    return (s == 3)
 
 def a_re6 (tokens, acu):
     s = 0
@@ -98,7 +98,7 @@ def a_re6 (tokens, acu):
         else:
             s = -1
             break
-    return (s == 5, tokens)
+    return (s == 5)
 
 def a_ParOpen (tokens, acu):
     s = 0
@@ -108,7 +108,7 @@ def a_ParOpen (tokens, acu):
             tokens.append(("<ParOpen>", acu))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_ParClose (tokens, acu):
     s = 0
@@ -118,7 +118,7 @@ def a_ParClose (tokens, acu):
             tokens.append(("<ParClose>", acu))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_BraOpen (tokens, acu):
     s = 0
@@ -128,7 +128,7 @@ def a_BraOpen (tokens, acu):
             tokens.append(("<BraOpen>", acu))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_BraClose (tokens, acu):
     s = 0
@@ -138,7 +138,7 @@ def a_BraClose (tokens, acu):
             tokens.append(("<BraClose>", acum))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_Coma (tokens, acu):
     s = 0
@@ -148,7 +148,7 @@ def a_Coma (tokens, acu):
             tokens.append(("<Coma>", acum))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_PointComa (tokens, acu):
     s = 0
@@ -158,7 +158,7 @@ def a_PointComa (tokens, acu):
             tokens.append(("<PointComa>", acum))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_Sum (tokens, acu):
     s = 0
@@ -168,7 +168,7 @@ def a_Sum (tokens, acu):
             tokens.append(("<Sum>", acum))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_Minus (tokens, acu):
     s = 0
@@ -178,7 +178,7 @@ def a_Minus (tokens, acu):
             tokens.append(("<Minus>", acum))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_Product (tokens, acu):
     s = 0
@@ -188,7 +188,7 @@ def a_Product (tokens, acu):
             tokens.append(("<Product>", acum))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 def a_Division (tokens, acu):
     s = 0
@@ -198,7 +198,7 @@ def a_Division (tokens, acu):
             tokens.append(("<Division>", acum))
         else:
             s = -1
-    return (s == 1, tokens)
+    return (s == 1)
 
 # Al finalizar el lexer deberia aceptar esta cadena
 lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
