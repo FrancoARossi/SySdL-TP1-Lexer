@@ -11,10 +11,11 @@ def a_re1 (tokens, acu):
             s = 2
         elif s == 2 and c == 't':
             s = 3
-            tokens.append(("<" + acu + ">", acu))
         else:
             s = -1
             break
+    if s == 3:
+        tokens.append(("<Reservada>", acu))
     return (s == 3)
 
 def a_re2 (tokens, acu):
@@ -30,10 +31,11 @@ def a_re2 (tokens, acu):
             s = 4
         elif s == 4 and c == 't':
             s = 5
-            tokens.append(("<" + acu + ">", acu))
         else:
             s = -1
             break
+    if s == 5:
+        tokens.append(("<Reservada>", acu))
     return (s == 5)
 
 def a_re3 (tokens, acu):
@@ -43,10 +45,11 @@ def a_re3 (tokens, acu):
             s = 1
         elif s == 1 and c == 'f':
             s = 2
-            tokens.append(("<" + acu + ">", acu))
         else:
             s = -1
             break
+    if s == 2:
+        tokens.append(("<Reservada>", acu))
     return (s == 2)
 
 def a_re4 (tokens, acu):
@@ -60,10 +63,11 @@ def a_re4 (tokens, acu):
             s = 3
         elif s == 3 and c == 'e':
             s = 4
-            tokens.append(("<" + acu + ">", acu))
         else:
             s = -1
             break
+    if s == 4:
+        tokens.append(("<Reservada>", acu))
     return (s == 4)
 
 def a_re5 (tokens, acu):
@@ -75,10 +79,12 @@ def a_re5 (tokens, acu):
             s = 2
         elif s == 2 and c == 'r':
             s = 3
-            tokens.append(("<" + acu + ">", acu))
         else:
             s = -1
             break
+        if s == 2:
+    if s == 3:
+        tokens.append(("<Reservada>", acu))
     return (s == 3)
 
 def a_re6 (tokens, acu):
@@ -94,10 +100,11 @@ def a_re6 (tokens, acu):
             s = 4
         elif s == 4 and c == 'e':
             s = 5
-            tokens.append(("<" + acu + ">", acu))
         else:
             s = -1
             break
+    if s == 5:
+        tokens.append(("<Reservada>", acu))
     return (s == 5)
 
 def a_ParOpen (tokens, acu):
@@ -105,9 +112,10 @@ def a_ParOpen (tokens, acu):
     for c in acu:
         if c == "("
             s = 1
-            tokens.append(("<ParOpen>", acu))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<" + acu + ">", acu))
     return (s == 1)
 
 def a_ParClose (tokens, acu):
@@ -115,9 +123,10 @@ def a_ParClose (tokens, acu):
     for c in acu:
         if c == ")"
             s = 1
-            tokens.append(("<ParClose>", acu))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<" + acu + ">", acu))
     return (s == 1)
 
 def a_BraOpen (tokens, acu):
@@ -125,9 +134,10 @@ def a_BraOpen (tokens, acu):
     for c in acu:
         if c == "{"
             s = 1
-            tokens.append(("<BraOpen>", acu))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<" + acu + ">", acu))
     return (s == 1)
 
 def a_BraClose (tokens, acu):
@@ -135,9 +145,10 @@ def a_BraClose (tokens, acu):
     for c in acu:
         if c == "}"
             s = 1
-            tokens.append(("<BraClose>", acum))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<" + acu + ">", acu))
     return (s == 1)
 
 def a_Coma (tokens, acu):
@@ -145,9 +156,10 @@ def a_Coma (tokens, acu):
     for c in acu:
         if c == ","
             s = 1
-            tokens.append(("<Coma>", acum))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<" + acu + ">", acu))
     return (s == 1)
 
 def a_PointComa (tokens, acu):
@@ -155,9 +167,10 @@ def a_PointComa (tokens, acu):
     for c in acu:
         if c == ";"
             s = 1
-            tokens.append(("<PointComa>", acum))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<" + acu + ">", acu))
     return (s == 1)
 
 def a_Sum (tokens, acu):
@@ -165,9 +178,10 @@ def a_Sum (tokens, acu):
     for c in acu:
         if c == "+"
             s = 1
-            tokens.append(("<Sum>", acum))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<OpMat>", acu))
     return (s == 1)
 
 def a_Minus (tokens, acu):
@@ -175,9 +189,10 @@ def a_Minus (tokens, acu):
     for c in acu:
         if c == "-"
             s = 1
-            tokens.append(("<Minus>", acum))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<OpMat>", acu))
     return (s == 1)
 
 def a_Product (tokens, acu):
@@ -185,9 +200,10 @@ def a_Product (tokens, acu):
     for c in acu:
         if c == "*"
             s = 1
-            tokens.append(("<Product>", acum))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<OpMat>", acu))
     return (s == 1)
 
 def a_Division (tokens, acu):
@@ -195,9 +211,10 @@ def a_Division (tokens, acu):
     for c in acu:
         if c == "/"
             s = 1
-            tokens.append(("<Division>", acum))
         else:
             s = -1
+    if s == 1:
+        tokens.append(("<OpMat>", acu))
     return (s == 1)
 
 # Al finalizar el lexer deberia aceptar esta cadena
