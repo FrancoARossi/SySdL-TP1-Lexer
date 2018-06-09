@@ -1,10 +1,11 @@
+import time
+
 def lexer(cadena):
-<<<<<<< HEAD
 	opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
 	OpMat = ["+", "*", "-", "/"]
 	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
-	
+		
 	for i in len(cadena):
 		acu = ""
 		if cadena[i].isAlpha():
@@ -12,29 +13,73 @@ def lexer(cadena):
 			start=i
 			for x in range(start,len(cadena)):
 				if cadena[x].isAlpha():
-					acu = acu + cadena{x]
+					acu = acu + cadena[x]
 				else:
 					i = x
 					break
-			# Aca mandamos automatas de palabras
+			pertenece = a_re1(tokens,acu)
+			if not pertenece:
+				pertenece = a_re2(tokens,acu)
+				if not pertenece:
+					pertenece = a_re3(tokens,acu)
+					if not pertenece:
+						pertenece = a_re4(tokens,acu)
+						if not pertenece:
+							pertenece = a_re5(tokens,acu)
+							if not pertenece:
+								tokens.append("<ID>",acu)
 		elif cadena[i].isDigit():
-			acu = acu + cadena{i]
+			acu = acu + cadena[i]
 			for x in range(start,len(cadena)):
 				if cadena[x].isDigit():
 					acu = acu + cadena[x]
 				else:
 					i = x
 					break
-			tokens.append(("<Num>",acu) # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... ??
-		elif cadena{i].isSpace(): # No debe hacer nada, que siga con el siguiente caracter
+			tokens.append(("<Num>",acu)                 # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... ??
+		elif cadena[i].isSpace():              # No debe hacer nada, que siga con el siguiente caracter
 		else:
 			acu = acu + cadena [i]
 			if acu in (OpMat or simbolos):
-				# Aca mandamos los automatas de simbolos de un caracter
+				pertenece = a_ParOpen(tokens,acu)
+				if not pertenece:
+					pertenece = a_ParClose(tokens,acu)
+					if not pertenece:
+						pertenece = a_BraOpen(tokens,acu)
+						if not pertenece:
+							pertenece = a_BraClose(tokens,acu)
+							if not pertenece:
+								pertenece = a_Coma(tokens,acu)
+								if not pertenece:
+									pertenece = a_PointComa(tokens,acu)
+									if not pertenece:
+										pertenece = a_Sum(tokens,acu)
+										if not pertenece:
+											pertenece = a_Minus(tokens,acu)
+											if not pertenece:
+												pertenece = a_Product(tokens,acu)
+												if not pertenece:
+													pertenece = a_Divide(tokens,acu)
 			else:
 				i+=1
-				acu = acu + cadena[i]
-				# Aca mandamos los automatas de simbolos doble
+				if not cadena[i].isAlpha() and not cadena[i].isDigit() and not cadena[i].isSpace:
+					acu = acu + cadena[i]
+				pertenece = a_OpRel1(tokens,acu)
+				if not pertenece:
+					pertenece = a_OpRel2(tokens,acu)
+					if not pertenece:
+						pertenece = a_OpRel3(tokens,acu)
+						if not pertenece:
+							pertenece = a_OpRel4(tokens,acu)
+							if not pertenece:
+								pertenece = a_OpRel5(tokens,acu)
+								if not pertenece:
+									pertenece = a_OpRel6(tokens,acu)
+									if not pertenece:
+										pertenece = a_OpRel7(tokens,acu)
+	print(tokens)
+	time.sleep(5)
+
 
 def a_OpRel1(tokens, acu):
 	s=0;
@@ -353,5 +398,4 @@ def a_Division (tokens, acu):
 lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
 
 # Habria que mandar un mensaje de error en este caso
-lexer("1 <( 2")
->>>>>>> 31526905dab29917915aa7c2bffb6120803826e6
+# lexer("1 <( 2")
