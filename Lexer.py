@@ -1,105 +1,89 @@
 def lexer(cadena):
    
     tokens = []
-    var = (False, 0)
-    cadena = cadena + "¬"
 
-    while cadena[var[1]] != "¬":
-        var = re1(cadena, var[1])
-        if var[0]:
-            tokens.append(("<int>", "int"))
-        var = re2(cadena, var[1])
-        if var[0]:
-            tokens.append(("<float>", "float"))
-        var = re3(cadena, var[1])
-        if var[0]:
-            tokens.append(("<if>", "if"))
-        var = re4(cadena, var[1])
-        if var[0]:
-            tokens.append(("<for>", "for"))
-        var = re5(cadena, var[1])
-        if var[0]:
-            tokens.append(("<while>", "while"))
-    print(tokens)
-
-def re1 (cadena, pos):
+def re1 (tokens, palabra):
     s = 0
-    for i in range(pos ,len(cadena)):
-        c = cadena[i]
+    for c in palabra:
         if s == 0 and c == 'i':
             s = 1
         elif s == 1 and c == 'n':
             s = 2
         elif s == 2 and c == 't':
             s = 3
-            i+=1
-            break
+            tokens.append(("<int>", "int"))
         else:
-            i-=s
             s = -1
             break
-    return (s == 3, i)
+    return (s == 3, tokens)
 
-def re2 (cadena, pos):
+def re2 (tokens, palabra):
     s = 0
-    for i in range(pos, len(cadena)):
-        c = cadena[i]
+    for c in palabra:
         if s == 0 and c == 'f':
             s = 1
-        elif s == 1 and 'l':
+        elif s == 1 and c == 'l':
             s = 2
-        elif s == 2 and 'o':
+        elif s == 2 and c == 'o':
             s = 3
-        elif s == 3 and  'a':
+        elif s == 3 and c == 'a':
             s = 4
-        elif s == 4 and 't':
+        elif s == 4 and c == 't':
             s = 5
-            i+=1
-            break
+            tokens.append(("<float>", "float"))
         else:
-            i-=s
             s = -1
             break
-    return (s == 5, i)
+    return (s == 5, tokens)
 
-def re3 (cadena, pos):
+def re3 (tokens, palabra):
     s = 0
-    for i in range(pos, len(cadena)):
-        c = cadena[i]
+    for c in palabra:
         if s == 0 and c == 'i':
             s = 1
         elif s == 1 and c == 'f':
             s = 2
-            i+=1
-            break
+            tokens.append(("<if>", "if"))
         else:
-            i-=s
             s = -1
             break
-    return (s == 2, i)
+    return (s == 2, tokens)
 
-def re4 (cadena, pos):
+def re4 (tokens, palabra):
     s = 0
-    for i in range(pos, len(cadena)):
-        c = cadena[i]
+    for c in palabra:
+        if s == 0 and c == 'e':
+            s = 1
+        elif s == 1 and c == 'l':
+            s = 2
+        elif s == 2 and c == 's':
+            s = 3
+        elif s == 3 and c == 'e':
+            s = 4
+            tokens.append(("<else>", "else"))
+        else:
+            s = -1
+            break
+    return (s == 4, tokens)
+
+def re5 (palabra):
+    s = 0
+    for c in palabra:
         if s == 0 and c == 'f':
             s = 1
         elif s == 1 and c == 'o':
             s = 2
         elif s == 2 and c == 'r':
             s = 3
-            i+=1
-            break
+            tokens.append(("<for>", "for"))
         else:
-            i-=s
             s = -1
             break
-    return (s == 3, i)
+    return (s == 3, tokens)
 
-def re5 (cadena, pos):
+def re6 (palabra):
     s = 0
-    for i in range(pos, len(cadena)):
-        c = cadena[i]
+    for c in palabra:
         if s == 0 and c == 'w':
             s = 1
         elif s == 1 and c == 'h':
@@ -110,12 +94,11 @@ def re5 (cadena, pos):
             s = 4
         elif s == 4 and c == 'e':
             s = 5
-            i+=1
-            break
+            tokens.append(("<while>", "while"))
         else:
-            i-=s
             s = -1
             break
-    return (s == 5, i)
+    return (s == 5, tokens)
 
-lexer("intfloatifforwhile")
+# Al finalizar el lexer deberia aceptar esta cadena
+lexer("int miFuncion(float a,int b){ for(c:=9, x == y) a := 2+2;}")
