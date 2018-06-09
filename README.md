@@ -4,6 +4,7 @@ Link del TP: https://docs.google.com/viewer?a=v&pid=sites&srcid=ZGVmYXVsdGRvbWFp
 
 Pagina de Sintaxis: https://sites.google.com/site/sslatdelta/
 
+Toods los integrantes fueron agregados a la carpeta oficial de Sintaxis.
 
 #Como subir un cambio
 Antes de realizar un cambio.
