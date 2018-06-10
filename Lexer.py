@@ -2,20 +2,21 @@ import time
 
 def lexer(cadena):
 	opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
-	OpMat = ["+", "*", "-", "/"]
-	simbolos = ["(", ")", "{", "}", ",", ";"]
+	simbolos = ["(", ")", "{", "}", ",", ";", "+", "*", "-", "/"]
 	tokens = []
-		
-	for i in len(cadena):
+	x = 0
+	start = 0
+
+	while start < len(cadena):
 		acu = ""
-		if cadena[i].isAlpha():
-			acu = acu + cadena[i]
-			start=i
+		if cadena[start].isalpha():
+			acu = acu + cadena[start]
+			start+=1
 			for x in range(start,len(cadena)):
-				if cadena[x].isAlpha():
+				if cadena[x].isalpha():
 					acu = acu + cadena[x]
 				else:
-					i = x
+					start = x
 					break
 			pertenece = a_re1(tokens,acu)
 			if not pertenece:
@@ -28,20 +29,23 @@ def lexer(cadena):
 							pertenece = a_re5(tokens,acu)
 							if not pertenece:
 								tokens.append(("<ID>",acu))
-		elif cadena[i].isDigit():
-			acu = acu + cadena[i]
+		elif cadena[start].isdigit():
+			acu = acu + cadena[start]
+			start += 1
 			for x in range(start,len(cadena)):
-				if cadena[x].isDigit():
+				if cadena[x].isdigit():
 					acu = acu + cadena[x]
 				else:
-					i = x
+					start = x
 					break
 			tokens.append(("<Num>",acu))               # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... ??
-		elif cadena[i].isSpace():
-			pass            # No debe hacer nada, que siga con el siguiente caracter
+		elif cadena[start].isspace():
+			start += 1
+			pass      # No debe hacer nada, que siga con el siguiente caracter
 		else:
-			acu = acu + cadena [i]
-			if acu in (OpMat or simbolos):
+			acu = acu + cadena [start]
+			start += 1
+			if acu in simbolos:
 				pertenece = a_ParOpen(tokens,acu)
 				if not pertenece:
 					pertenece = a_ParClose(tokens,acu)
@@ -50,9 +54,9 @@ def lexer(cadena):
 						if not pertenece:
 							pertenece = a_BraClose(tokens,acu)
 							if not pertenece:
-								pertenece = a_Coma(tokens,acu)
+								pertenece = a_Comma(tokens,acu)
 								if not pertenece:
-									pertenece = a_PointComa(tokens,acu)
+									pertenece = a_PointComma(tokens,acu)
 									if not pertenece:
 										pertenece = a_Sum(tokens,acu)
 										if not pertenece:
@@ -62,9 +66,9 @@ def lexer(cadena):
 												if not pertenece:
 													pertenece = a_Divide(tokens,acu)
 			else:
-				i+=1
-				if not cadena[i].isAlpha() and not cadena[i].isDigit() and not cadena[i].isSpace:
-					acu = acu + cadena[i]
+				if (not cadena[start].isalpha()) and (not cadena[start].isdigit()) and (not cadena[start].isspace()):
+					acu = acu + cadena[start]
+					print(acu)
 				pertenece = a_OpRel1(tokens,acu)
 				if not pertenece:
 					pertenece = a_OpRel2(tokens,acu)
@@ -84,10 +88,10 @@ def lexer(cadena):
 
 def a_OpRel1(tokens, acu):
 	s=0;
-	for c in x:
+	for c in acu:
 		if s==0 and c==':':
 			s=1
-		elif S==1 and c=='=':
+		elif s==1 and c=='=':
 			s=2
 		else:
 			s=-1
@@ -98,7 +102,7 @@ def a_OpRel1(tokens, acu):
 
 def a_OpRel2(tokens, acu):
 	s=0;
-	for c in x:
+	for c in acu:
 		if s==0 and c=='<':
 			s=1
 		else:
@@ -110,7 +114,7 @@ def a_OpRel2(tokens, acu):
 
 def a_OpRel3(tokens, acu):
 	s=0;
-	for c in x:
+	for c in acu:
 		if s==0 and c=='>':
 			s=1
 		else:
@@ -123,7 +127,7 @@ def a_OpRel3(tokens, acu):
 
 def a_OpRel4(tokens, acu):
 	s=0;
-	for c in x:
+	for c in acu:
 		if s==0 and c=='<':
 			s=1
 		elif s==1 and c=='=':
@@ -137,7 +141,7 @@ def a_OpRel4(tokens, acu):
 
 def a_OpRel5(tokens, acu):
 	s=0;
-	for c in x:
+	for c in acu:
 		if s==0 and c=='>':
 			s=1
 		elif s==1 and c=='=':
@@ -151,7 +155,7 @@ def a_OpRel5(tokens, acu):
 	
 def a_OpRel6(tokens, acu):
 	s=0;
-	for c in x:
+	for c in acu:
 		if s==0 and c=='!':
 			s=1
 		elif s==1 and c=='=':
@@ -165,7 +169,7 @@ def a_OpRel6(tokens, acu):
 
 def a_OpRel7(tokens, acu):
 	s=0;
-	for c in x:
+	for c in acu:
 		if s==0 and c=='=':
 			s=1
 		elif s==1 and c=='=':
@@ -289,7 +293,7 @@ def a_ParOpen (tokens, acu):
         else:
             s = -1
     if s == 1:
-        tokens.append(("<" + acu + ">", acu))
+        tokens.append(("<ParOpen>", acu))
     return (s == 1)
 
 def a_ParClose (tokens, acu):
@@ -300,7 +304,7 @@ def a_ParClose (tokens, acu):
         else:
             s = -1
     if s == 1:
-        tokens.append(("<" + acu + ">", acu))
+        tokens.append(("<ParClose>", acu))
     return (s == 1)
 
 def a_BraOpen (tokens, acu):
@@ -311,7 +315,7 @@ def a_BraOpen (tokens, acu):
         else:
             s = -1
     if s == 1:
-        tokens.append(("<" + acu + ">", acu))
+        tokens.append(("<BraOpen>", acu))
     return (s == 1)
 
 def a_BraClose (tokens, acu):
@@ -322,10 +326,10 @@ def a_BraClose (tokens, acu):
         else:
             s = -1
     if s == 1:
-        tokens.append(("<" + acu + ">", acu))
+        tokens.append(("<BraClose>", acu))
     return (s == 1)
 
-def a_Coma (tokens, acu):
+def a_Comma (tokens, acu):
     s = 0
     for c in acu:
         if c == ',':
@@ -333,10 +337,10 @@ def a_Coma (tokens, acu):
         else:
             s = -1
     if s == 1:
-        tokens.append(("<" + acu + ">", acu))
+        tokens.append(("<Comma>", acu))
     return (s == 1)
 
-def a_PointComa (tokens, acu):
+def a_PointComma (tokens, acu):
     s = 0
     for c in acu:
         if c == ';':
@@ -344,7 +348,7 @@ def a_PointComa (tokens, acu):
         else:
             s = -1
     if s == 1:
-        tokens.append(("<" + acu + ">", acu))
+        tokens.append(("<PointComma>", acu))
     return (s == 1)
 
 def a_Sum (tokens, acu):
