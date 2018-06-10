@@ -2,35 +2,22 @@ import time
 
 def lexer(cadena):
 	opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
-	simbolos = ["(", ")", "{", "}", ",", ";", "+", "*", "-", "/"]
+	OpMat = ["+", "*", "-", "/"]
+	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
-<<<<<<< HEAD
 	i=0
 	cadena = cadena + ' '
 		
 	while i<len(cadena):
 		acu = ""
-		print("Entro while general con '",acu,"'")
-		print("i:",i)
 		if cadena[i].isalpha():
 			acu = acu + cadena[i]
-			print("Entro isalpha con '",acu,"'")			
 			start=i+1
-=======
-	x = 0
-	start = 0
-
-	while start < len(cadena):
-		acu = ""
-		if cadena[start].isalpha():
-			acu = acu + cadena[start]
-			start+=1
->>>>>>> 8ee1ed2a1a7dab929601e6471ddc92756e14d3dd
 			for x in range(start,len(cadena)):
 				if cadena[x].isalpha():
 					acu = acu + cadena[x]
 				else:
-					start = x
+					i = x
 					break
 			pertenece = a_re1(tokens,acu)
 			if not pertenece:
@@ -42,51 +29,25 @@ def lexer(cadena):
 						if not pertenece:
 							pertenece = a_re5(tokens,acu)
 							if not pertenece:
-<<<<<<< HEAD
 								pertenece = a_re6(tokens,acu)
 								if not pertenece:
 									pertenece = a_ID(tokens,acu)
-			print("Salio isalpha con '",acu,"'")
 		elif cadena[i].isdigit():
 			acu = acu + cadena[i]
-			print("Entro isdigit con '",acu,"'")
 			start=i+1
-=======
-								tokens.append(("<ID>",acu))
-		elif cadena[start].isdigit():
-			acu = acu + cadena[start]
-			start += 1
->>>>>>> 8ee1ed2a1a7dab929601e6471ddc92756e14d3dd
 			for x in range(start,len(cadena)):
 				if cadena[x].isdigit():
 					acu = acu + cadena[x]
 				else:
-<<<<<<< HEAD
 					i = x
-					print("Hace esto alguna vez!?")
 					break
 			tokens.append(("<Num>",acu))               # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... RIGHT??
-			print("Salio isdigit con '",acu,"'")
 		elif cadena[i].isspace():
 			i+=1         # No debe hacer nada, que siga con el siguiente caracter
 		else:
 			acu = acu + cadena [i]
-			print("Entro simbolos con'",acu,"'")
 			if (acu in OpMat) or (acu in simbolos):
 				i+=1
-				print("Estuvo en una de las listas")
-=======
-					start = x
-					break
-			tokens.append(("<Num>",acu))               # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... ??
-		elif cadena[start].isspace():
-			start += 1
-			pass      # No debe hacer nada, que siga con el siguiente caracter
-		else:
-			acu = acu + cadena [start]
-			start += 1
-			if acu in simbolos:
->>>>>>> 8ee1ed2a1a7dab929601e6471ddc92756e14d3dd
 				pertenece = a_ParOpen(tokens,acu)
 				if not pertenece:
 					pertenece = a_ParClose(tokens,acu)
@@ -95,9 +56,9 @@ def lexer(cadena):
 						if not pertenece:
 							pertenece = a_BraClose(tokens,acu)
 							if not pertenece:
-								pertenece = a_Comma(tokens,acu)
+								pertenece = a_Coma(tokens,acu)
 								if not pertenece:
-									pertenece = a_PointComma(tokens,acu)
+									pertenece = a_PointComa(tokens,acu)
 									if not pertenece:
 										pertenece = a_Sum(tokens,acu)
 										if not pertenece:
@@ -107,18 +68,10 @@ def lexer(cadena):
 												if not pertenece:
 													pertenece = a_Divide(tokens,acu)
 			else:
-<<<<<<< HEAD
-				print("No estuvo, fue por el else")
 				i+=1
 				if not cadena[i].isalpha() and not cadena[i].isdigit() and not cadena[i].isspace():
 					acu = acu + cadena[i]
-					print("Agrego '",cadena[i],"' , acu quedo en '",acu,"'")
 					i+=1
-=======
-				if (not cadena[start].isalpha()) and (not cadena[start].isdigit()) and (not cadena[start].isspace()):
-					acu = acu + cadena[start]
-					print(acu)
->>>>>>> 8ee1ed2a1a7dab929601e6471ddc92756e14d3dd
 				pertenece = a_OpRel1(tokens,acu)
 				if not pertenece:
 					pertenece = a_OpRel2(tokens,acu)
@@ -132,10 +85,7 @@ def lexer(cadena):
 									pertenece = a_OpRel6(tokens,acu)
 									if not pertenece:
 										pertenece = a_OpRel7(tokens,acu)
-			print("Salio simbolos con'",acu,"'")
-		print("Salio while general con '",acu,"'")
 	print(tokens)
-	print("The end.")
 
 def a_ID(tokens, acu):
 	s=0
@@ -394,7 +344,7 @@ def a_BraClose (tokens, acu):
         tokens.append(("<BraClose>", acu))
     return (s == 1)
 
-def a_Comma (tokens, acu):
+def a_Coma (tokens, acu):
     s = 0
     for c in acu:
         if c == ',':
@@ -405,7 +355,7 @@ def a_Comma (tokens, acu):
         tokens.append(("<Comma>", acu))
     return (s == 1)
 
-def a_PointComma (tokens, acu):
+def a_PointComa (tokens, acu):
     s = 0
     for c in acu:
         if c == ';':
@@ -413,11 +363,7 @@ def a_PointComma (tokens, acu):
         else:
             s = -1
     if s == 1:
-<<<<<<< HEAD
         tokens.append(("<SemiColon>", acu))
-=======
-        tokens.append(("<PointComma>", acu))
->>>>>>> 8ee1ed2a1a7dab929601e6471ddc92756e14d3dd
     return (s == 1)
 
 def a_Sum (tokens, acu):
@@ -466,7 +412,6 @@ def a_Division (tokens, acu):
 
 # Al finalizar el lexer deberia aceptar esta cadena
 lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
-# lexer(" while 1234")
 
 # Habria que mandar un mensaje de error en este caso
 # lexer("1 <( 2")
