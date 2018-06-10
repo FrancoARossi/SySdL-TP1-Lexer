@@ -2,18 +2,17 @@ import time
 
 def lexer(cadena):
 	opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
-	OpMat = ["+", "*", "-", "/"]
+	opMat = ["+", "*", "-", "/"]
 	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
-	i=0
-	cadena = cadena + ' '
+	i = 0
 		
 	while i<len(cadena):
 		acu = ""
 		if cadena[i].isalpha():
 			acu = acu + cadena[i]
-			start=i+1
-			for x in range(start,len(cadena)):
+			i+=1
+			for x in range(i,len(cadena)):
 				if cadena[x].isalpha():
 					acu = acu + cadena[x]
 				else:
@@ -34,8 +33,8 @@ def lexer(cadena):
 									pertenece = a_ID(tokens,acu)
 		elif cadena[i].isdigit():
 			acu = acu + cadena[i]
-			start=i+1
-			for x in range(start,len(cadena)):
+			i=i+1
+			for x in range(i,len(cadena)):
 				if cadena[x].isdigit():
 					acu = acu + cadena[x]
 				else:
@@ -45,9 +44,9 @@ def lexer(cadena):
 		elif cadena[i].isspace():
 			i+=1         # No debe hacer nada, que siga con el siguiente caracter
 		else:
-			acu = acu + cadena [i]
-			if (acu in OpMat) or (acu in simbolos):
-				i+=1
+			acu = acu + cadena[i]
+			i+=1
+			if (acu in opMat) or (acu in simbolos):
 				pertenece = a_ParOpen(tokens,acu)
 				if not pertenece:
 					pertenece = a_ParClose(tokens,acu)
@@ -68,7 +67,6 @@ def lexer(cadena):
 												if not pertenece:
 													pertenece = a_Divide(tokens,acu)
 			else:
-				i+=1
 				if not cadena[i].isalpha() and not cadena[i].isdigit() and not cadena[i].isspace():
 					acu = acu + cadena[i]
 					i+=1
@@ -86,6 +84,7 @@ def lexer(cadena):
 									if not pertenece:
 										pertenece = a_OpRel7(tokens,acu)
 	print(tokens)
+	time.sleep(3)
 
 def a_ID(tokens, acu):
 	s=0
