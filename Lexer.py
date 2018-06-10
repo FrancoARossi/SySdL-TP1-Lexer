@@ -27,7 +27,7 @@ def lexer(cadena):
 						if not pertenece:
 							pertenece = a_re5(tokens,acu)
 							if not pertenece:
-								tokens.append("<ID>",acu)
+								tokens.append(("<ID>",acu))
 		elif cadena[i].isDigit():
 			acu = acu + cadena[i]
 			for x in range(start,len(cadena)):
@@ -36,8 +36,9 @@ def lexer(cadena):
 				else:
 					i = x
 					break
-			tokens.append(("<Num>",acu)                 # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... ??
-		elif cadena[i].isSpace():              # No debe hacer nada, que siga con el siguiente caracter
+			tokens.append(("<Num>",acu))               # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... ??
+		elif cadena[i].isSpace():
+			pass            # No debe hacer nada, que siga con el siguiente caracter
 		else:
 			acu = acu + cadena [i]
 			if acu in (OpMat or simbolos):
@@ -92,7 +93,7 @@ def a_OpRel1(tokens, acu):
 			s=-1
 			break
 	if s==2:
-		tokens.append("<OpMat>",acu)
+		tokens.append(("<OpMat>",acu))
 	return s==2
 
 def a_OpRel2(tokens, acu):
@@ -104,7 +105,7 @@ def a_OpRel2(tokens, acu):
 			s=-1
 			break
 	if s==2:
-		tokens.append("<OpRel>",acu)
+		tokens.append(("<OpRel>",acu))
 	return s==1
 
 def a_OpRel3(tokens, acu):
@@ -116,7 +117,7 @@ def a_OpRel3(tokens, acu):
 			s=-1
 			break
 	if s==2:
-		tokens.append("<OpRel>",acu)
+		tokens.append(("<OpRel>",acu))
 	return s==1
 
 
@@ -131,7 +132,7 @@ def a_OpRel4(tokens, acu):
 			s=-1
 			break
 	if s==2:
-		tokens.append("<OpRel>",acu)
+		tokens.append(("<OpRel>",acu))
 	return s==2
 
 def a_OpRel5(tokens, acu):
@@ -145,7 +146,7 @@ def a_OpRel5(tokens, acu):
 			s=-1
 			break
 	if s==2:
-		tokens.append("<OpRel>",acu)
+		tokens.append(("<OpRel>",acu))
 	return s==2
 	
 def a_OpRel6(tokens, acu):
@@ -159,7 +160,7 @@ def a_OpRel6(tokens, acu):
 			s=-1
 			break
 	if s==2:
-		tokens.append("<OpRel>",acu)
+		tokens.append(("<OpRel>",acu))
 	return s==2
 
 def a_OpRel7(tokens, acu):
@@ -173,11 +174,8 @@ def a_OpRel7(tokens, acu):
 			s=-1
 			break
 	if s==2:
-		tokens.append("<OpRel>",acu)
+		tokens.append(("<OpRel>",acu))
 	return s==2
-=======
-   
-    tokens = []
 
 def a_re1 (tokens, acu):
     s = 0
@@ -259,7 +257,6 @@ def a_re5 (tokens, acu):
         else:
             s = -1
             break
-        if s == 2:
     if s == 3:
         tokens.append(("<Reservada>", acu))
     return (s == 3)
@@ -287,7 +284,7 @@ def a_re6 (tokens, acu):
 def a_ParOpen (tokens, acu):
     s = 0
     for c in acu:
-        if c == "("
+        if c == '(':
             s = 1
         else:
             s = -1
@@ -298,7 +295,7 @@ def a_ParOpen (tokens, acu):
 def a_ParClose (tokens, acu):
     s = 0
     for c in acu:
-        if c == ")"
+        if c == ')':
             s = 1
         else:
             s = -1
@@ -309,7 +306,7 @@ def a_ParClose (tokens, acu):
 def a_BraOpen (tokens, acu):
     s = 0
     for c in acu:
-        if c == "{"
+        if c == '{':
             s = 1
         else:
             s = -1
@@ -320,7 +317,7 @@ def a_BraOpen (tokens, acu):
 def a_BraClose (tokens, acu):
     s = 0
     for c in acu:
-        if c == "}"
+        if c == '}':
             s = 1
         else:
             s = -1
@@ -331,7 +328,7 @@ def a_BraClose (tokens, acu):
 def a_Coma (tokens, acu):
     s = 0
     for c in acu:
-        if c == ","
+        if c == ',':
             s = 1
         else:
             s = -1
@@ -342,7 +339,7 @@ def a_Coma (tokens, acu):
 def a_PointComa (tokens, acu):
     s = 0
     for c in acu:
-        if c == ";"
+        if c == ';':
             s = 1
         else:
             s = -1
@@ -353,7 +350,7 @@ def a_PointComa (tokens, acu):
 def a_Sum (tokens, acu):
     s = 0
     for c in acu:
-        if c == "+"
+        if c == '+':
             s = 1
         else:
             s = -1
@@ -364,7 +361,7 @@ def a_Sum (tokens, acu):
 def a_Minus (tokens, acu):
     s = 0
     for c in acu:
-        if c == "-"
+        if c == '-':
             s = 1
         else:
             s = -1
@@ -375,7 +372,7 @@ def a_Minus (tokens, acu):
 def a_Product (tokens, acu):
     s = 0
     for c in acu:
-        if c == "*"
+        if c == '*':
             s = 1
         else:
             s = -1
@@ -386,7 +383,7 @@ def a_Product (tokens, acu):
 def a_Division (tokens, acu):
     s = 0
     for c in acu:
-        if c == "/"
+        if c == '/':
             s = 1
         else:
             s = -1
