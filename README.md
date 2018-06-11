@@ -14,3 +14,10 @@ Esto en bucle para el que va ha editar.
 git stash<br> 
 git pull origin master<br>
 git stash apply<br>
+
+<h3>Participantes</h3>
+<p>
+Ivan Morales<br>
+Franco Rossi<br>
+Jairo Laupa<br>
+</p>
