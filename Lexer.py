@@ -427,5 +427,5 @@ lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
 print('\n')
 lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}")
 print('\n')
-
+#"123abd"/ Error 1 ,2 ,3,a,b,c , Finalmente devuelve el error de token 'error_alfnumerico'
 input("Pulse Enter para continuar")

@@ -10,3 +10,7 @@ Toods los integrantes fueron agregados a la carpeta oficial de Sintaxis.
 Antes de realizar un cambio.
 Primero actualizar el archivo, posteriormente de hacer los cambios subir.
 Esto en bucle para el que va ha editar.
+#git
+git stash 
+git pull origin master
+git stash apply
