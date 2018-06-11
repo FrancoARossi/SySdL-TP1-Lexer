@@ -4,10 +4,12 @@ def lexer(cadena):
 	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
 	i = 0
-		
+	
+	#Se usara la variable pertenece definido msa bajo ,que devolvera un booleano	
 	while i<len(cadena):
 		acu = ""
-		if cadena[i].isalpha():
+		if cadena[i].isalpha(): 
+		#Es un caracter del alfabeto?
 			acu = acu + cadena[i]
 			i+=1
 			for x in range(i,len(cadena)):
@@ -18,6 +20,7 @@ def lexer(cadena):
 					break
 			evaluarAutomatasString(tokens,acu)
 		elif cadena[i].isdigit():
+	        # es un caracter numerico
 			acu = acu + cadena[i]
 			i+=1
 			for x in range(i,len(cadena)):
@@ -28,6 +31,7 @@ def lexer(cadena):
 					break
 			a_Num(tokens,acu)
 		elif cadena[i].isspace():
+		#es un caracater del tipo espacio
 			i+=1
 		else:
 			acu = acu + cadena[i]
@@ -428,7 +432,7 @@ def a_Division (tokens, acu):
     if s == 1:
         tokens.append(("<OpMat>", acu))
     return (s == 1)
-
+#Hacer como minimo 10 pruebas
 # Al finalizar el lexer deberia aceptar estas cadenas
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}"))
 print('\n')
