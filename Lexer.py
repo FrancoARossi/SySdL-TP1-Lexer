@@ -6,6 +6,7 @@ def lexer(cadena):
 	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
 	i = 0
+	cadena = cadena + " "
 		
 	while i<len(cadena):
 		acu = ""
@@ -67,7 +68,8 @@ def lexer(cadena):
 												if not pertenece:
 													pertenece = a_Divide(tokens,acu)
 			else:
-				if not cadena[i].isalpha() and not cadena[i].isdigit() and not cadena[i].isspace():
+				i+=1
+				if cadena[i]=="=":
 					acu = acu + cadena[i]
 					i+=1
 				pertenece = a_OpRel1(tokens,acu)
@@ -424,8 +426,8 @@ def a_Division (tokens, acu):
     return (s == 1)
 
 # Al finalizar el lexer deberia aceptar esta cadena
-lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
+# lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
 
 # Habria que mandar un mensaje de error en este caso
-# lexer("1 <( 2")
+lexer("1 <( 2")
 # Esto lo podria generar la gramatica?
