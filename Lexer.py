@@ -1,11 +1,9 @@
-# cadena -> lista (tipotoken0,lexeme)
 def lexer(cadena):
 	opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
 	opMat = ["+", "*", "-", "/"]
 	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
 	i = 0
-	cadena = cadena + " "
 		
 	while i<len(cadena):
 		acu = ""
@@ -18,19 +16,7 @@ def lexer(cadena):
 				else:
 					i = x
 					break
-			pertenece = a_re1(tokens,acu)
-			if not pertenece:
-				pertenece = a_re2(tokens,acu)
-				if not pertenece:
-					pertenece = a_re3(tokens,acu)
-					if not pertenece:
-						pertenece = a_re4(tokens,acu)
-						if not pertenece:
-							pertenece = a_re5(tokens,acu)
-							if not pertenece:
-								pertenece = a_re6(tokens,acu)
-								if not pertenece:
-									pertenece = a_ID(tokens,acu)
+			evaluarAutomatasString(tokens,acu)
 		elif cadena[i].isdigit():
 			acu = acu + cadena[i]
 			i+=1
@@ -47,43 +33,64 @@ def lexer(cadena):
 			acu = acu + cadena[i]
 			i+=1
 			if (acu in opMat) or (acu in simbolos):
-				pertenece = a_ParOpen(tokens,acu)
-				if not pertenece:
-					pertenece = a_ParClose(tokens,acu)
-					if not pertenece:
-						pertenece = a_BraOpen(tokens,acu)
-						if not pertenece:
-							pertenece = a_BraClose(tokens,acu)
-							if not pertenece:
-								pertenece = a_Coma(tokens,acu)
-								if not pertenece:
-									pertenece = a_PointComa(tokens,acu)
-									if not pertenece:
-										pertenece = a_Sum(tokens,acu)
-										if not pertenece:
-											pertenece = a_Minus(tokens,acu)
-											if not pertenece:
-												pertenece = a_Product(tokens,acu)
-												if not pertenece:
-													pertenece = a_Divide(tokens,acu)
+				evaluarAutomatasSimboloUnico(tokens,acu)
 			else:
 				if cadena[i]=="=":
 					acu = acu + cadena[i]
 					i+=1
-				pertenece = a_OpRel1(tokens,acu)
+				evaluarAutomatasSimbolosDobles(tokens,acu)
+	return tokens
+
+def evaluarAutomatasString(tokens,acu):
+	pertenece = a_re1(tokens,acu)
+	if not pertenece:
+		pertenece = a_re2(tokens,acu)
+		if not pertenece:
+			pertenece = a_re3(tokens,acu)
+			if not pertenece:
+				pertenece = a_re4(tokens,acu)
 				if not pertenece:
-					pertenece = a_OpRel2(tokens,acu)
+					pertenece = a_re5(tokens,acu)
 					if not pertenece:
-						pertenece = a_OpRel3(tokens,acu)
+						pertenece = a_re6(tokens,acu)
 						if not pertenece:
-							pertenece = a_OpRel4(tokens,acu)
+							pertenece = a_ID(tokens,acu)
+
+def evaluarAutomatasSimboloUnico(tokens,acu):
+	pertenece = a_ParOpen(tokens,acu)
+	if not pertenece:
+		pertenece = a_ParClose(tokens,acu)
+		if not pertenece:
+			pertenece = a_BraOpen(tokens,acu)
+			if not pertenece:
+				pertenece = a_BraClose(tokens,acu)
+				if not pertenece:
+					pertenece = a_Coma(tokens,acu)
+					if not pertenece:
+						pertenece = a_PointComa(tokens,acu)
+						if not pertenece:
+							pertenece = a_Sum(tokens,acu)
 							if not pertenece:
-								pertenece = a_OpRel5(tokens,acu)
+								pertenece = a_Minus(tokens,acu)
 								if not pertenece:
-									pertenece = a_OpRel6(tokens,acu)
+									pertenece = a_Product(tokens,acu)
 									if not pertenece:
-										pertenece = a_OpRel7(tokens,acu)
-	print(tokens)
+										pertenece = a_Divide(tokens,acu)
+
+def evaluarAutomatasSimbolosDobles(tokens,acu):
+	pertenece = a_OpRel1(tokens,acu)
+	if not pertenece:
+		pertenece = a_OpRel2(tokens,acu)
+		if not pertenece:
+			pertenece = a_OpRel3(tokens,acu)
+			if not pertenece:
+				pertenece = a_OpRel4(tokens,acu)
+				if not pertenece:
+					pertenece = a_OpRel5(tokens,acu)
+					if not pertenece:
+						pertenece = a_OpRel6(tokens,acu)
+						if not pertenece:
+							pertenece = a_OpRel7(tokens,acu)
 
 def a_ID(tokens, acu):
 	s=0
@@ -423,9 +430,9 @@ def a_Division (tokens, acu):
     return (s == 1)
 
 # Al finalizar el lexer deberia aceptar estas cadenas
-lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
+print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}"))
 print('\n')
-lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}")
+print(lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}"))
 print('\n')
-#"123abd"/ Error 1 ,2 ,3,a,b,c , Finalmente devuelve el error de token 'error_alfnumerico'
+
 input("Pulse Enter para continuar")
