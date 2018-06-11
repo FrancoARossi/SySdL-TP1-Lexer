@@ -34,7 +34,7 @@ def lexer(cadena):
 									pertenece = a_ID(tokens,acu)
 		elif cadena[i].isdigit():
 			acu = acu + cadena[i]
-			i=i+1
+			i+=1
 			for x in range(i,len(cadena)):
 				if cadena[x].isdigit():
 					acu = acu + cadena[x]
@@ -46,8 +46,8 @@ def lexer(cadena):
 			i+=1
 		else:
 			acu = acu + cadena[i]
+			i+=1
 			if (acu in opMat) or (acu in simbolos):
-				i+=1
 				pertenece = a_ParOpen(tokens,acu)
 				if not pertenece:
 					pertenece = a_ParClose(tokens,acu)
@@ -68,7 +68,6 @@ def lexer(cadena):
 												if not pertenece:
 													pertenece = a_Divide(tokens,acu)
 			else:
-				i+=1
 				if cadena[i]=="=":
 					acu = acu + cadena[i]
 					i+=1
@@ -426,7 +425,7 @@ def a_Division (tokens, acu):
     return (s == 1)
 
 # Al finalizar el lexer deberia aceptar esta cadena
-lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
+lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;} int")
 
 # Habria que mandar un mensaje de error en este caso
 # lexer("1 <( 2")
