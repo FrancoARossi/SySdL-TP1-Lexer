@@ -6,6 +6,8 @@ def lexer(cadena):
 	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
 	i = 0
+	aceptada = True
+	cadena = cadena + " "
 		
 	while i<len(cadena):
 		acu = ""
@@ -17,7 +19,14 @@ def lexer(cadena):
 					acu = acu + cadena[x]
 				else:
 					i = x
+					if cadena[i].isdigit():
+						print("### Esta gramatica no es aceptada ###")
+						time.sleep(2)
+						aceptada = False
+						break
 					break
+			if not aceptada:
+				break
 			pertenece = a_re1(tokens,acu)
 			if not pertenece:
 				pertenece = a_re2(tokens,acu)
@@ -33,20 +42,37 @@ def lexer(cadena):
 									pertenece = a_ID(tokens,acu)
 		elif cadena[i].isdigit():
 			acu = acu + cadena[i]
-			i=i+1
+			i+=1
 			for x in range(i,len(cadena)):
 				if cadena[x].isdigit():
 					acu = acu + cadena[x]
-				else:
+				else:	
 					i = x
+					if cadena[i].isalpha():
+						print("### Esta gramatica no es aceptada ###")
+						time.sleep(2)
+						aceptada = False
+						break
 					break
-			tokens.append(("<Num>",acu))               # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... RIGHT??
+			if not aceptada:
+				break
+			a_Num(tokens, acu)
 		elif cadena[i].isspace():
-			i+=1         # No debe hacer nada, que siga con el siguiente caracter
+			i+=1
 		else:
 			acu = acu + cadena[i]
-			i+=1
 			if (acu in opMat) or (acu in simbolos):
+				i+=1
+				if ((acu in opMat) and ((cadena[i] in opMat) or (cadena[i] in opLog) or (cadena[i] in simbolos))):
+					print("### Esta gramatica no es aceptada ###")
+					time.sleep(2)
+					aceptada = False
+					break
+				if (((acu == "{") or (acu == "}")) and ((cadena[i].isdigit()) or (cadena[i] in opMat) or (cadena[i] in opLog))):
+					print("### Esta gramatica no es aceptada ###")
+					time.sleep(2)
+					aceptada = False
+					break
 				pertenece = a_ParOpen(tokens,acu)
 				if not pertenece:
 					pertenece = a_ParClose(tokens,acu)
@@ -67,9 +93,15 @@ def lexer(cadena):
 												if not pertenece:
 													pertenece = a_Divide(tokens,acu)
 			else:
-				if not cadena[i].isalpha() and not cadena[i].isdigit() and not cadena[i].isspace():
+				i+=1
+				if cadena[i] == "=":
 					acu = acu + cadena[i]
 					i+=1
+				if ((not acu in opLog) or (cadena[i] in simbolos)):
+						print("### Esta gramatica no es aceptada ###")
+						time.sleep(2)
+						aceptada = False
+						break
 				pertenece = a_OpRel1(tokens,acu)
 				if not pertenece:
 					pertenece = a_OpRel2(tokens,acu)
@@ -83,8 +115,9 @@ def lexer(cadena):
 									pertenece = a_OpRel6(tokens,acu)
 									if not pertenece:
 										pertenece = a_OpRel7(tokens,acu)
-	print(tokens)
-	time.sleep(3)
+	if aceptada:
+		print(tokens)
+		time.sleep(2)
 
 def a_ID(tokens, acu):
 	s=0
@@ -98,6 +131,20 @@ def a_ID(tokens, acu):
 			break
 	if s==1:
 		tokens.append(("<ID>",acu))
+	return s==1
+
+def a_Num(tokens, acu):
+	s=0
+	for c in acu:
+		if s==0 and c.isdigit():
+			s=1
+		elif s==1 and c.isdigit():
+			s=1
+		else:
+			s=-1
+			break
+	if s==1:
+		tokens.append(("<Num>",acu))
 	return s==1
 
 def a_OpRel1(tokens, acu):
@@ -122,7 +169,7 @@ def a_OpRel2(tokens, acu):
 		else:
 			s=-1
 			break
-	if s==2:
+	if s==1:
 		tokens.append(("<OpRel>",acu))
 	return s==1
 
@@ -134,7 +181,7 @@ def a_OpRel3(tokens, acu):
 		else:
 			s=-1
 			break
-	if s==2:
+	if s==1:
 		tokens.append(("<OpRel>",acu))
 	return s==1
 
@@ -409,8 +456,15 @@ def a_Division (tokens, acu):
         tokens.append(("<OpMat>", acu))
     return (s == 1)
 
-# Al finalizar el lexer deberia aceptar esta cadena
-lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
+### Pruebas ###
 
-# Habria que mandar un mensaje de error en este caso
-# lexer("1 <( 2")
+# Al finalizar el lexer deberia aceptar esta cadena y mostrar la lista de Tokens
+lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
+lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}")
+
+# Estas cadenas no deben ser aceptadas
+lexer("1 <( 2")
+lexer("int miFuncion(float a,int b){2 }")
+lexer("123for")
+lexer("for123")
+lexer("2 ]+) a")
