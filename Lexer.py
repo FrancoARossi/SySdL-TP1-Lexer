@@ -40,9 +40,9 @@ def lexer(cadena):
 				else:
 					i = x
 					break
-			tokens.append(("<Num>",acu))               # Aca ya sabemos que es un numero, asi que no llamamos al automata de num... RIGHT??
+			a_Num(tokens,acu)
 		elif cadena[i].isspace():
-			i+=1         # No debe hacer nada, que siga con el siguiente caracter
+			i+=1
 		else:
 			acu = acu + cadena[i]
 			i+=1
@@ -98,6 +98,20 @@ def a_ID(tokens, acu):
 			break
 	if s==1:
 		tokens.append(("<ID>",acu))
+	return s==1
+
+def a_Num(tokens, acu):
+	s=0
+	for c in acu:
+		if s==0 and c.isdigit():
+			s=1
+		elif s==1 and c.isdigit():
+			s=1
+		else:
+			s=-1
+			break
+	if s==1:
+		tokens.append(("<Num>",acu))
 	return s==1
 
 def a_OpRel1(tokens, acu):
@@ -414,3 +428,4 @@ lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
 
 # Habria que mandar un mensaje de error en este caso
 # lexer("1 <( 2")
+# Esto lo podria generar la gramatica?
