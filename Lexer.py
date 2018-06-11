@@ -6,7 +6,10 @@ def lexer(cadena):
 	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
 	i = 0
+<<<<<<< HEAD
 	aceptada = True
+=======
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 	cadena = cadena + " "
 		
 	while i<len(cadena):
@@ -54,9 +57,13 @@ def lexer(cadena):
 						aceptada = False
 						break
 					break
+<<<<<<< HEAD
 			if not aceptada:
 				break
 			a_Num(tokens, acu)
+=======
+			a_Num(tokens,acu)
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 		elif cadena[i].isspace():
 			i+=1
 		else:
@@ -93,8 +100,12 @@ def lexer(cadena):
 												if not pertenece:
 													pertenece = a_Divide(tokens,acu)
 			else:
+<<<<<<< HEAD
 				i+=1
 				if cadena[i] == "=":
+=======
+				if cadena[i]=="=":
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 					acu = acu + cadena[i]
 					i+=1
 				if ((not acu in opLog) or (cadena[i] in simbolos)):
@@ -456,6 +467,7 @@ def a_Division (tokens, acu):
         tokens.append(("<OpMat>", acu))
     return (s == 1)
 
+<<<<<<< HEAD
 ### Pruebas ###
 
 # Al finalizar el lexer deberia aceptar esta cadena y mostrar la lista de Tokens
@@ -468,3 +480,11 @@ lexer("int miFuncion(float a,int b){2 }")
 lexer("123for")
 lexer("for123")
 lexer("2 ]+) a")
+=======
+# Al finalizar el lexer deberia aceptar esta cadena
+lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;} int")
+
+# Habria que mandar un mensaje de error en este caso
+# lexer("1 <( 2")
+# Esto lo podria generar la gramatica? El lexer los debería reconocer por separado ya que no toma en cuenta espacios
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
