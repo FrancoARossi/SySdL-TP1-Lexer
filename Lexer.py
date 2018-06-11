@@ -1,3 +1,4 @@
+# cadena -> lista (tipotoken0,lexeme)
 def lexer(cadena):
 	opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
 	opMat = ["+", "*", "-", "/"]
