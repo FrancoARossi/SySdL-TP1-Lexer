@@ -9,7 +9,10 @@ def lexer(cadena):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	aceptada = True
+=======
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 =======
 >>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 =======
@@ -66,9 +69,13 @@ def lexer(cadena):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if not aceptada:
 				break
 			a_Num(tokens, acu)
+=======
+			a_Num(tokens,acu)
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 =======
 			a_Num(tokens,acu)
 >>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
@@ -117,8 +124,12 @@ def lexer(cadena):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				i+=1
 				if cadena[i] == "=":
+=======
+				if cadena[i]=="=":
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 =======
 				if cadena[i]=="=":
 >>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
@@ -492,6 +503,7 @@ def a_Division (tokens, acu):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ### Pruebas ###
 
 # Al finalizar el lexer deberia aceptar esta cadena y mostrar la lista de Tokens
@@ -509,6 +521,8 @@ lexer("2 ]+) a")
 >>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 =======
 >>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
+=======
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 # Al finalizar el lexer deberia aceptar esta cadena
 lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;} int")
 
@@ -516,6 +530,10 @@ lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;} int")
 # lexer("1 <( 2")
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+# Esto lo podria generar la gramatica? El lexer los debería reconocer por separado ya que no toma en cuenta espacios
+>>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
+=======
 # Esto lo podria generar la gramatica? El lexer los debería reconocer por separado ya que no toma en cuenta espacios
 >>>>>>> 81ae25dc114764c6d1ab4afc77c43007f042f089
 =======
