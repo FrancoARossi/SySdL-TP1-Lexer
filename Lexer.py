@@ -6,8 +6,13 @@ def lexer(cadena):
 	tokens = []
 	i = 0
 <<<<<<< HEAD
+<<<<<<< HEAD
 	cadena = cadena + " "
 		
+=======
+	
+	#Se usara la variable pertenece definido msa bajo ,que devolvera un booleano	
+>>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
 =======
 	
 	#Se usara la variable pertenece definido msa bajo ,que devolvera un booleano	
@@ -452,6 +457,7 @@ def a_Division (tokens, acu):
     return (s == 1)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def a_ErrorIDNum (tokens, acu, cadena, i):
 	error = False
 	while cadena[i].isdigit():
@@ -532,6 +538,12 @@ input("Pulse Enter para continuar")
 #Hacer como minimo 10 pruebas
 # Al finalizar el lexer deberia aceptar estas cadenas
 
+=======
+
+#Hacer como minimo 10 pruebas
+# Al finalizar el lexer deberia aceptar estas cadenas
+
+>>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
 #Esto desglosa la lista de tokens
 prueba1=lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
 for i in range(len(prueba1)):
@@ -543,4 +555,7 @@ for i in range(len(prueba1)):
 #print('\n')
 
 input("Pulse Enter para continuar")
+<<<<<<< HEAD
+>>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
+=======
 >>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
