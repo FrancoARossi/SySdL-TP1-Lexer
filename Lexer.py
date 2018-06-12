@@ -1,9 +1,11 @@
+opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
+opMat = ["+", "*", "-", "/"]
+simbolos = ["(", ")", "{", "}", ",", ";"]
+
 def lexer(cadena):
-	opLog = [":=", "<", ">", ">=", "<=", "!=", "=="]
-	opMat = ["+", "*", "-", "/"]
-	simbolos = ["(", ")", "{", "}", ",", ";"]
 	tokens = []
 	i = 0
+	cadena = cadena + " "
 		
 	while i<len(cadena):
 		acu = ""
@@ -16,6 +18,8 @@ def lexer(cadena):
 				else:
 					i = x
 					break
+			if a_ErrorIDNum(tokens, acu, cadena, i):
+				break
 			evaluarAutomatasString(tokens,acu)
 		elif cadena[i].isdigit():
 			acu = acu + cadena[i]
@@ -26,18 +30,27 @@ def lexer(cadena):
 				else:
 					i = x
 					break
+			if a_ErrorNumID(tokens, acu, cadena, i):
+				break
 			a_Num(tokens,acu)
 		elif cadena[i].isspace():
 			i+=1
 		else:
 			acu = acu + cadena[i]
-			i+=1
+			i += 1
 			if (acu in opMat) or (acu in simbolos):
+				if (acu in opMat) and (a_ErrorOpMat(tokens, acu, cadena, i)):
+					break
+				if (acu == "{") and (a_ErrorBraOpen(tokens, acu, cadena, i)):
+					break
+				if (acu == "}") and (a_ErrorBraClose(tokens, acu, cadena, i)):
+					break
 				evaluarAutomatasSimboloUnico(tokens,acu)
 			else:
 				if cadena[i]=="=":
 					acu = acu + cadena[i]
 					i+=1
+				#a_ErrorInvalido (tokens, acu) #
 				evaluarAutomatasSimbolosDobles(tokens,acu)
 	return tokens
 
@@ -429,10 +442,78 @@ def a_Division (tokens, acu):
         tokens.append(("<OpMat>", acu))
     return (s == 1)
 
-# Al finalizar el lexer deberia aceptar estas cadenas
+def a_ErrorIDNum (tokens, acu, cadena, i):
+	error = False
+	while cadena[i].isdigit():
+		acu = acu + cadena[i]
+		i += 1
+		error = True
+	if error:
+		tokens.append(("<ErrorIDNum>", acu))
+		for x in range(0,(len(tokens)-1)):
+			del(tokens[0])
+	return error
+
+def a_ErrorNumID (tokens, acu, cadena, i):
+	error = False
+	while cadena[i].isalpha():
+		acu = acu + cadena[i]
+		i += 1
+		error = True
+	if error:
+		tokens.append(("<ErrorNumID>", acu))
+		for x in range(0,(len(tokens)-1)):
+			del(tokens[0])
+	return error
+
+def a_ErrorOpMat (tokens, acu, cadena, i):
+	error = False
+	while cadena[i] in opMat:
+		acu = acu + cadena[i]
+		i += 1
+		error = True
+	if error:
+		tokens.append(("<ErrorOpMat>", acu))
+		for x in range(0,(len(tokens)-1)):
+			del(tokens[0])
+	return error
+
+def a_ErrorBraOpen(tokens, acu, cadena, i):
+	error = False
+	if ((cadena[i-2] != ")") and (not cadena[i-2].isspace())):
+		error = True
+	if error:
+		tokens.append(("<ErrorBraOpen>", acu))
+		for x in range(0,(len(tokens)-1)):
+			del(tokens[0])
+	return error
+
+
+def a_ErrorBraClose(tokens, acu, cadena, i):
+	error = False
+	if ((cadena[i] != "}") and (not cadena[i].isspace())):
+		error = True
+	if error:
+		tokens.append(("<ErrorBraClose>", acu))
+		for x in range(0,(len(tokens)-1)):
+			del(tokens[0])
+	return error
+
+# Al finalizar el lexer debe aceptar estas cadenas
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}"))
 print('\n')
 print(lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}"))
 print('\n')
+
+# Estas cadenas deben devolver un token de error
+print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}error"))
+print('\n')
+print(lexer("int miFuncion(float a,int b)error{ for(c:=9, x <= y) a := 2+2;}"))
+print('\n')
+print(lexer("abc123"))
+print('\n')
+print(lexer("123abc"))
+print('\n')
+print(lexer("{1 := 2 ++2}"))
 
 input("Pulse Enter para continuar")
