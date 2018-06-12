@@ -53,7 +53,8 @@ def lexer(cadena):
 				if cadena[i]=="=":
 					acu = acu + cadena[i]
 					i+=1
-				#a_ErrorInvalido (tokens, acu) #
+				if a_ErrorInvalido (tokens, acu, cadena, i):
+					break
 				evaluarAutomatasSimbolosDobles(tokens,acu)
 	return tokens
 
@@ -503,6 +504,16 @@ def a_ErrorBraClose(tokens, acu, cadena, i):
 			del(tokens[0])
 	return error
 
+def a_ErrorInvalido (tokens, acu, cadena, i):
+	error = False
+	if (not acu in opLog):
+		error = True
+	if error:
+		tokens.append(("<ErrorInvalido>", acu))
+		for x in range(0,(len(tokens)-1)):
+			del(tokens[0])
+	return error
+
 # Al finalizar el lexer debe aceptar estas cadenas
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}"))
 print('\n')
@@ -524,5 +535,7 @@ print('\n')
 print(lexer("123abc"))
 print('\n')
 print(lexer("{1 := 2 ++2}"))
+print('\n')
+print(lexer("int a := 3, 4%"))
 
 input("Pulse Enter para continuar")
