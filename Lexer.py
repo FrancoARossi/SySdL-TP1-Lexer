@@ -60,41 +60,42 @@ def evaluarAutomatasString(tokens,acu):
 						if not pertenece:
 							pertenece = a_ID(tokens,acu)
 
+
 def evaluarAutomatasSimboloUnico(tokens,acu):
-	pertenece = a_ParOpen(tokens,acu)
-	if not pertenece:
-		pertenece = a_ParClose(tokens,acu)
-		if not pertenece:
-			pertenece = a_BraOpen(tokens,acu)
-			if not pertenece:
-				pertenece = a_BraClose(tokens,acu)
-				if not pertenece:
-					pertenece = a_Coma(tokens,acu)
-					if not pertenece:
-						pertenece = a_PointComa(tokens,acu)
-						if not pertenece:
-							pertenece = a_Sum(tokens,acu)
-							if not pertenece:
-								pertenece = a_Minus(tokens,acu)
-								if not pertenece:
-									pertenece = a_Product(tokens,acu)
-									if not pertenece:
-										pertenece = a_Divide(tokens,acu)
+	if a_ParOpen(tokens,acu):
+		return
+	if a_ParClose(tokens,acu):
+		return
+	if a_BraOpen(tokens,acu):
+		return
+	if a_BraClose(tokens,acu):
+		return
+	if a_Coma(tokens,acu):
+		return
+	if a_PointComa(tokens,acu):
+		return
+	if a_Sum(tokens,acu):
+		return
+	if a_Minus(tokens,acu):
+		return
+	if a_Product(tokens,acu):
+		return
+	a_Divide(tokens,acu)
 
 def evaluarAutomatasSimbolosDobles(tokens,acu):
-	pertenece = a_OpRel1(tokens,acu)
-	if not pertenece:
-		pertenece = a_OpRel2(tokens,acu)
-		if not pertenece:
-			pertenece = a_OpRel3(tokens,acu)
-			if not pertenece:
-				pertenece = a_OpRel4(tokens,acu)
-				if not pertenece:
-					pertenece = a_OpRel5(tokens,acu)
-					if not pertenece:
-						pertenece = a_OpRel6(tokens,acu)
-						if not pertenece:
-							pertenece = a_OpRel7(tokens,acu)
+	if a_OpRel1(tokens,acu):
+		return
+	if a_OpRel2(tokens,acu):
+		return
+	if a_OpRel3(tokens,acu):
+		return
+	if a_OpRel4(tokens,acu):
+		return
+	if a_OpRel5(tokens,acu):
+		return
+	if a_OpRel6(tokens,acu):
+		return
+	a_OpRel7(tokens,acu)
 
 def a_ID(tokens, acu):
 	s=0
