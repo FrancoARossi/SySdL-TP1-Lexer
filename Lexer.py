@@ -5,18 +5,8 @@ simbolos = ["(", ")", "{", "}", ",", ";"]
 def lexer(cadena):
 	tokens = []
 	i = 0
-<<<<<<< HEAD
-<<<<<<< HEAD
 	cadena = cadena + " "
-		
-=======
 	
-	#Se usara la variable pertenece definido msa bajo ,que devolvera un booleano	
->>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
-=======
-	
-	#Se usara la variable pertenece definido msa bajo ,que devolvera un booleano	
->>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
 	while i<len(cadena):
 		acu = ""
 		if cadena[i].isalpha(): 
@@ -456,8 +446,6 @@ def a_Division (tokens, acu):
         tokens.append(("<OpMat>", acu))
     return (s == 1)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 def a_ErrorIDNum (tokens, acu, cadena, i):
 	error = False
 	while cadena[i].isdigit():
@@ -521,6 +509,11 @@ print('\n')
 print(lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}"))
 print('\n')
 
+#Esto desglosa la lista de tokens
+prueba1=lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
+for i in range(len(prueba1)):
+	print (prueba1[i])
+
 # Estas cadenas deben devolver un token de error
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}error"))
 print('\n')
@@ -533,29 +526,3 @@ print('\n')
 print(lexer("{1 := 2 ++2}"))
 
 input("Pulse Enter para continuar")
-=======
-
-#Hacer como minimo 10 pruebas
-# Al finalizar el lexer deberia aceptar estas cadenas
-
-=======
-
-#Hacer como minimo 10 pruebas
-# Al finalizar el lexer deberia aceptar estas cadenas
-
->>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
-#Esto desglosa la lista de tokens
-prueba1=lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")
-for i in range(len(prueba1)):
-	print (prueba1[i])
-
-#print(len(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2;}")))
-#print('\n')
-#print(lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}"))
-#print('\n')
-
-input("Pulse Enter para continuar")
-<<<<<<< HEAD
->>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
-=======
->>>>>>> 80ccc260bad3cd4ff1efe04d0be616588bc954a2
