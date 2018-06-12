@@ -59,19 +59,19 @@ def lexer(cadena):
 	return tokens
 
 def evaluarAutomatasString(tokens,acu):
-	pertenece = a_re1(tokens,acu)
-	if not pertenece:
-		pertenece = a_re2(tokens,acu)
-		if not pertenece:
-			pertenece = a_re3(tokens,acu)
-			if not pertenece:
-				pertenece = a_re4(tokens,acu)
-				if not pertenece:
-					pertenece = a_re5(tokens,acu)
-					if not pertenece:
-						pertenece = a_re6(tokens,acu)
-						if not pertenece:
-							pertenece = a_ID(tokens,acu)
+	if a_re1(tokens,acu):
+		return
+	if a_re2(tokens,acu):
+		return
+	if a_re3(tokens,acu):
+		return
+	if a_re4(tokens,acu):
+		return
+	if a_re5(tokens,acu):
+		return
+	if a_re6(tokens,acu):
+		return
+	a_ID(tokens,acu)
 
 
 def evaluarAutomatasSimboloUnico(tokens,acu):
