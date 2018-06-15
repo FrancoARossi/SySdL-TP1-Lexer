@@ -520,11 +520,6 @@ print('\n')
 print(lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}"))
 print('\n')
 
-#Esto desglosa la lista de tokens
-prueba1=lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}")
-for i in range(len(prueba1)):
-	print (prueba1[i])
-
 # Estas cadenas deben devolver un token de error
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}error"))
 print('\n')
