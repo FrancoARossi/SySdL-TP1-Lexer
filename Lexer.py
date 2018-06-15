@@ -2,117 +2,117 @@ opLog = [':=', '<', '>', '>=', '<=', '!=', '==']
 opMat = ['+', '*', '-', '/']
 simbolos = ['(', ')', '{', '}', ',']
 
-def lexer(cadena):
+def lexer(src):
 	tokens = []
 	i = 0
-	cadena = cadena + ' '
+	src = src + ' '
 	
-	while i < len(cadena):
-		acu = ""
-		if cadena[i].isalpha(): 
+	while i < len(src):
+		lexeme = ""
+		if src[i].isalpha(): 
 		#Es un caracter del alfabeto?
-			acu = acu + cadena[i]
+			lexeme = lexeme + src[i]
 			i += 1
-			for x in range(i, len(cadena)):
-				if cadena[x].isalpha():
-					acu = acu + cadena[x]
+			for x in range(i, len(src)):
+				if src[x].isalpha():
+					lexeme = lexeme + src[x]
 				else:
 					i = x
 					break
-			if a_ErrorIDNum(tokens, acu, cadena, i):
+			if a_ErrorIDNum(tokens, lexeme, src, i):
 				break
-			evaluarAutomatasString(tokens, acu)
-		elif cadena[i].isdigit():
+			evaluarAutomatasString(lexeme)
+		elif src[i].isdigit():
 	        # es un caracter numerico
-			acu = acu + cadena[i]
+			lexeme = lexeme + src[i]
 			i += 1
-			for x in range(i, len(cadena)):
-				if cadena[x].isdigit():
-					acu = acu + cadena[x]
+			for x in range(i, len(src)):
+				if src[x].isdigit():
+					lexeme = lexeme + src[x]
 				else:
 					i = x
 					break
-			if a_ErrorNumID(tokens, acu, cadena, i):
+			if a_ErrorNumID(tokens, lexeme, src, i):
 				break
-			a_Num(tokens, acu)
-		elif cadena[i].isspace():
+			a_Num(lexeme)
+		elif src[i].isspace():
 		#es un caracater del tipo espacio
 			i += 1
 		else:
-			acu = acu + cadena[i]
+			lexeme = lexeme + src[i]
 			i += 1
-			if (acu in opMat) or (acu in simbolos):
-				if (acu in opMat) and (a_ErrorOpMat(tokens, acu, cadena, i)):
+			if (lexeme in opMat) or (lexeme in simbolos):
+				if (lexeme in opMat) and (a_ErrorOpMat(tokens, lexeme, src, i)):
 					break
-				if (acu == "{") and (a_ErrorBraOpen(tokens, acu, cadena, i)):
+				if (lexeme == "{") and (a_ErrorBraOpen(tokens, lexeme, src, i)):
 					break
-				if (acu == "}") and (a_ErrorBraClose(tokens, acu, cadena, i)):
+				if (lexeme == "}") and (a_ErrorBraClose(tokens, lexeme, src, i)):
 					break
-				evaluarAutomatasSimboloUnico(tokens, acu)
+				evaluarAutomatasSimboloUnico(lexeme)
 			else:
-				if cadena[i]=="=":
-					acu = acu + cadena[i]
+				if src[i]=="=":
+					lexeme = lexeme + src[i]
 					i += 1
-				if a_ErrorInvalido(tokens, acu, cadena, i):
+				if a_ErrorInvalido(tokens, lexeme, src, i):
 					break
-				evaluarAutomatasSimbolosDobles(tokens, acu)
+				evaluarAutomatasSimbolosDobles(lexeme)
 	return tokens
 
-def evaluarAutomatasString(tokens, acu):
-	if a_re1(tokens, acu):
+def evaluarAutomatasString(lexeme):
+	if a_re1(lexeme):
 		return
-	if a_re2(tokens, acu):
+	if a_re2(lexeme):
 		return
-	if a_re3(tokens, acu):
+	if a_re3(lexeme):
 		return
-	if a_re4(tokens, acu):
+	if a_re4(lexeme):
 		return
-	if a_re5(tokens, acu):
+	if a_re5(lexeme):
 		return
-	if a_re6(tokens, acu):
+	if a_re6(lexeme):
 		return
-	a_ID(tokens, acu)
+	a_ID(lexeme)
 
 
-def evaluarAutomatasSimboloUnico(tokens, acu):
-	if a_ParOpen(tokens, acu):
+def evaluarAutomatasSimboloUnico(lexeme):
+	if a_ParOpen(lexeme):
 		return
-	if a_ParClose(tokens, acu):
+	if a_ParClose(lexeme):
 		return
-	if a_BraOpen(tokens, acu):
+	if a_BraOpen(lexeme):
 		return
-	if a_BraClose(tokens, acu):
+	if a_BraClose(lexeme):
 		return
-	if a_Comma(tokens, acu):
+	if a_Comma(lexeme):
 		return
-	if a_SemiColon(tokens, acu):
+	if a_SemiColon(lexeme):
 		return
-	if a_Sum(tokens, acu):
+	if a_Sum(lexeme):
 		return
-	if a_Minus(tokens, acu):
+	if a_Minus(lexeme):
 		return
-	if a_Product(tokens, acu):
+	if a_Product(lexeme):
 		return
-	a_Divide(tokens, acu)
+	a_Divide(lexeme)
 
-def evaluarAutomatasSimbolosDobles(tokens, acu):
-	if a_OpRel1(tokens, acu):
+def evaluarAutomatasSimbolosDobles(lexeme):
+	if a_OpRel1(lexeme):
 		return
-	if a_OpRel2(tokens, acu):
+	if a_OpRel2(lexeme):
 		return
-	if a_OpRel3(tokens, acu):
+	if a_OpRel3(lexeme):
 		return
-	if a_OpRel4(tokens, acu):
+	if a_OpRel4(lexeme):
 		return
-	if a_OpRel5(tokens, acu):
+	if a_OpRel5(lexeme):
 		return
-	if a_OpRel6(tokens, acu):
+	if a_OpRel6(lexeme):
 		return
-	a_OpRel7(tokens, acu)
+	a_OpRel7(lexeme)
 
-def a_ID(tokens, acu):
+def a_ID(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c.isalpha():
 			s = 1
 		elif s == 1 and c.isalpha():
@@ -121,12 +121,12 @@ def a_ID(tokens, acu):
 			s = -1
 			break
 	if s == 1:
-		tokens.append(("<ID>", acu))
+		tokens.append(("ID", lexeme))
 	return s == 1
 
-def a_Num(tokens, acu):
+def a_Num(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c.isdigit():
 			s = 1
 		elif s == 1 and c.isdigit():
@@ -135,12 +135,12 @@ def a_Num(tokens, acu):
 			s = -1
 			break
 	if s == 1:
-		tokens.append(("<Num>", acu))
+		tokens.append(("Num", lexeme))
 	return s == 1
 
-def a_OpRel1(tokens, acu):
+def a_OpRel1(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c == ':':
 			s = 1
 		elif s == 1 and c == '=':
@@ -149,37 +149,37 @@ def a_OpRel1(tokens, acu):
 			s = -1
 			break
 	if s == 2:
-		tokens.append(("<OpMat>", acu))
+		tokens.append(("OpMat", lexeme))
 	return s == 2
 
-def a_OpRel2(tokens, acu):
+def a_OpRel2(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c == '<':
 			s = 1
 		else:
 			s = -1
 			break
 	if s == 1:
-		tokens.append(("<OpRel>", acu))
+		tokens.append(("OpRel", lexeme))
 	return s == 1
 
-def a_OpRel3(tokens, acu):
+def a_OpRel3(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c == '>':
 			s = 1
 		else:
 			s = -1
 			break
 	if s == 1:
-		tokens.append(("<OpRel>", acu))
+		tokens.append(("OpRel", lexeme))
 	return s == 1
 
 
-def a_OpRel4(tokens, acu):
+def a_OpRel4(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c == '<':
 			s = 1
 		elif s == 1 and c == '=':
@@ -188,12 +188,12 @@ def a_OpRel4(tokens, acu):
 			s = -1
 			break
 	if s == 2:
-		tokens.append(("<OpRel>", acu))
+		tokens.append(("OpRel", lexeme))
 	return s == 2
 
-def a_OpRel5(tokens, acu):
+def a_OpRel5(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c == '>':
 			s = 1
 		elif s == 1 and c == '=':
@@ -202,12 +202,12 @@ def a_OpRel5(tokens, acu):
 			s = -1
 			break
 	if s == 2:
-		tokens.append(("<OpRel>", acu))
+		tokens.append(("OpRel", lexeme))
 	return s == 2
 	
-def a_OpRel6(tokens, acu):
+def a_OpRel6(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c == '!':
 			s = 1
 		elif s == 1 and c == '=':
@@ -216,12 +216,12 @@ def a_OpRel6(tokens, acu):
 			s = -1
 			break
 	if s == 2:
-		tokens.append(("<OpRel>", acu))
+		tokens.append(("OpRel", lexeme))
 	return s == 2
 
-def a_OpRel7(tokens, acu):
+def a_OpRel7(lexeme):
 	s = 0
-	for c in acu:
+	for c in lexeme:
 		if s == 0 and c == '=':
 			s = 1
 		elif s == 1 and c == '=':
@@ -230,12 +230,12 @@ def a_OpRel7(tokens, acu):
 			s = -1
 			break
 	if s == 2:
-		tokens.append(("<OpRel>", acu))
+		tokens.append(("OpRel", lexeme))
 	return s == 2
 
-def a_re1 (tokens, acu):
+def a_re1 (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if s == 0 and c == 'i':
             s = 1
         elif s == 1 and c == 'n':
@@ -246,12 +246,12 @@ def a_re1 (tokens, acu):
             s = -1
             break
     if s == 3:
-        tokens.append(("<Reservada>", acu))
+        tokens.append(("Reservada", lexeme))
     return s == 3
 
-def a_re2 (tokens, acu):
+def a_re2 (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if s == 0 and c == 'f':
             s = 1
         elif s == 1 and c == 'l':
@@ -266,12 +266,12 @@ def a_re2 (tokens, acu):
             s = -1
             break
     if s == 5:
-        tokens.append(("<Reservada>", acu))
+        tokens.append(("Reservada", lexeme))
     return s == 5
 
-def a_re3 (tokens, acu):
+def a_re3 (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if s == 0 and c == 'i':
             s = 1
         elif s == 1 and c == 'f':
@@ -280,12 +280,12 @@ def a_re3 (tokens, acu):
             s = -1
             break
     if s == 2:
-        tokens.append(("<Reservada>", acu))
+        tokens.append(("Reservada", lexeme))
     return s == 2
 
-def a_re4 (tokens, acu):
+def a_re4 (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if s == 0 and c == 'e':
             s = 1
         elif s == 1 and c == 'l':
@@ -298,12 +298,12 @@ def a_re4 (tokens, acu):
             s = -1
             break
     if s == 4:
-        tokens.append(("<Reservada>", acu))
+        tokens.append(("Reservada", lexeme))
     return s == 4
 
-def a_re5 (tokens, acu):
+def a_re5 (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if s == 0 and c == 'f':
             s = 1
         elif s == 1 and c == 'o':
@@ -314,12 +314,12 @@ def a_re5 (tokens, acu):
             s = -1
             break
     if s == 3:
-        tokens.append(("<Reservada>", acu))
+        tokens.append(("Reservada", lexeme))
     return s == 3
 
-def a_re6 (tokens, acu):
+def a_re6 (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if s == 0 and c == 'w':
             s = 1
         elif s == 1 and c == 'h':
@@ -334,193 +334,193 @@ def a_re6 (tokens, acu):
             s = -1
             break
     if s == 5:
-        tokens.append(("<Reservada>", acu))
+        tokens.append(("Reservada", lexeme))
     return s == 5
 
-def a_ParOpen (tokens, acu):
+def a_ParOpen (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == '(':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<ParOpen>", acu))
+        tokens.append(("ParOpen", lexeme))
     return (s == 1)
 
-def a_ParClose (tokens, acu):
+def a_ParClose (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == ')':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<ParClose>", acu))
+        tokens.append(("ParClose", lexeme))
     return s == 1
 
-def a_BraOpen (tokens, acu):
+def a_BraOpen (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == '{':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<BraOpen>", acu))
+        tokens.append(("BraOpen", lexeme))
     return (s == 1)
 
-def a_BraClose (tokens, acu):
+def a_BraClose (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == '}':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<BraClose>", acu))
+        tokens.append(("BraClose", lexeme))
     return s == 1
 
-def a_Comma (tokens, acu):
+def a_Comma (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == ',':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<Comma>", acu))
+        tokens.append(("Comma", lexeme))
     return s == 1
 
-def a_SemiColon (tokens, acu):
+def a_SemiColon (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == ';':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<SemiColon>", acu))
+        tokens.append(("SemiColon", lexeme))
     return s == 1
 
-def a_Sum (tokens, acu):
+def a_Sum (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == '+':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<OpMat>", acu))
+        tokens.append(("OpMat", lexeme))
     return s == 1
 
-def a_Minus (tokens, acu):
+def a_Minus (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == '-':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<OpMat>", acu))
+        tokens.append(("OpMat", lexeme))
     return s == 1
 
-def a_Product (tokens, acu):
+def a_Product (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == '*':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<OpMat>", acu))
+        tokens.append(("OpMat", lexeme))
     return s == 1
 
-def a_Division (tokens, acu):
+def a_Division (lexeme):
     s = 0
-    for c in acu:
+    for c in lexeme:
         if c == '/':
             s = 1
         else:
             s = -1
     if s == 1:
-        tokens.append(("<OpMat>", acu))
+        tokens.append(("OpMat", lexeme))
     return s == 1
 
-def a_ErrorIDNum (tokens, acu, cadena, i):
+def a_ErrorIDNum (tokens, lexeme, src, i):
 	error = False
-	while cadena[i].isdigit():
-		acu = acu + cadena[i]
+	while src[i].isdigit():
+		lexeme = lexeme + src[i]
 		i += 1
 		error = True
 	if error:
-		tokens.append(("<ErrorIDNum>", acu))
+		tokens.append(("ErrorIDNum", lexeme))
 		for x in range(0, len(tokens) - 1):
 			del(tokens[0])
 	return error
 
-def a_ErrorNumID (tokens, acu, cadena, i):
+def a_ErrorNumID (tokens, lexeme, src, i):
 	error = False
-	while cadena[i].isalpha():
-		acu = acu + cadena[i]
+	while src[i].isalpha():
+		lexeme = lexeme + src[i]
 		i += 1
 		error = True
 	if error:
-		tokens.append(("<ErrorNumID>", acu))
+		tokens.append(("ErrorNumID", lexeme))
 		for x in range(0, len(tokens) - 1):
 			del(tokens[0])
 	return error
 
-def a_ErrorOpMat (tokens, acu, cadena, i):
+def a_ErrorOpMat (tokens, lexeme, src, i):
 	error = False
-	while cadena[i] in opMat:
-		acu = acu + cadena[i]
+	while src[i] in opMat:
+		lexeme = lexeme + src[i]
 		i += 1
 		error = True
 	if error:
-		tokens.append(("<ErrorOpMat>", acu))
+		tokens.append(("ErrorOpMat", lexeme))
 		for x in range(0, len(tokens) - 1):
 			del(tokens[0])
 	return error
 
-def a_ErrorBraOpen(tokens, acu, cadena, i):
+def a_ErrorBraOpen(tokens, lexeme, src, i):
 	error = False
-	if (cadena[i-2] != ")") and (not cadena[i-2].isspace()):
+	if (src[i-2] != ")") and (not src[i-2].isspace()):
 		error = True
 	if error:
-		tokens.append(("<ErrorBraOpen>", acu))
+		tokens.append(("ErrorBraOpen", lexeme))
 		for x in range(0, len(tokens) - 1):
 			del(tokens[0])
 	return error
 
 
-def a_ErrorBraClose(tokens, acu, cadena, i):
+def a_ErrorBraClose(tokens, lexeme, src, i):
 	error = False
-	if (cadena[i] != "}") and (not cadena[i].isspace()):
+	if (src[i] != "}") and (not src[i].isspace()):
 		error = True
 	if error:
-		tokens.append(("<ErrorBraClose>", acu))
+		tokens.append(("ErrorBraClose", lexeme))
 		for x in range(0, len(tokens) - 1):
 			del(tokens[0])
 	return error
 
-def a_ErrorInvalido (tokens, acu, cadena, i):
+def a_ErrorInvalido (tokens, lexeme, src, i):
 	error = False
-	if (not acu in opLog):
+	if (not lexeme in opLog):
 		error = True
 	if error:
-		tokens.append(("<ErrorInvalido>", acu))
+		tokens.append(("ErrorInvalido", lexeme))
 		for x in range(0, len(tokens) - 1):
 			del(tokens[0])
 	return error
 
-# Al finalizar el lexer debe aceptar estas cadenas
-print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}"))
+# Al finalizar el lexer debe aceptar estas srcs
+print(lexer("int miFuncion(float a,int b){ for(c:=9, x = y) a := 2+2}"))
 print('\n')
 print(lexer("float miFuncion(int a,int b){ for(c:=9, x <= y) {while (3 == 3) {z := z+x}}}"))
 print('\n')
 
-# Estas cadenas deben devolver un token de error
+# Estas srcs deben devolver un token de error
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}error"))
 print('\n')
 print(lexer("int miFuncion(float a,int b)error{ for(c:=9, x <= y) a := 2+2}"))
@@ -533,5 +533,3 @@ print(lexer("{1 := 2 ++2}"))
 print('\n')
 print(lexer("int a := 3, 4%"))
 print('\n')
-
-input("Pulse Enter para continuar")
