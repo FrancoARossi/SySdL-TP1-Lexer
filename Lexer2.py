@@ -20,7 +20,7 @@ def lexer(src):
 				start = i
 				state = 1
 		# Esto no deberia ser elif?
-		if state == 1 :
+		elif state == 1 :
 			# Para mi esta bifurcacion debería ser un and, pero en el cuadernillo esta como or, por eso lo deje asi
 			if es_aceptado(word) or not c.isspace() :
 				i += 1
@@ -28,31 +28,32 @@ def lexer(src):
 			else:
 				i -= 1
 				state = 2
-		if state == 2 :
+		elif state == 2 :
 			# Tira error de indexado. busque en internet cual es la causa y dice que ocurre cuando
 			# queres saar el elemento 0 de una lista, pero la lista es vacía
 			candidatos = evaluar(word)
 			tokentype = candidatos[0]
-			tokens.append((tokentype,word))
+			tokens.append((tokentype, word))
 			i += 1
 			state = 0
 	return tokens
 				
 def es_aceptado(word):
 	candidatos = []
-	for (token,afd) in TT :
+	for (token, afd) in TT :
 		if afd(word) :
-			candidatos.append(token)
-			
+			candidatos.append(token)		
 	if len(candidatos) > 0 :
 		return True
 	else:
 		return False
 
 def evaluar(word):
+	candidatos = []
 	for (token,afd) in TT :
 		if afd(word) :
-			candidatos.append[token]
+			candidatos.append(token)
+	return candidatos
 
 def a_ID(word):
 	s=0
