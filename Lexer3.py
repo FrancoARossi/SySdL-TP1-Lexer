@@ -348,13 +348,13 @@ def a_Division (word):
 			break
 	return (s != -1)
 
-TT = [("int", a_re1), ("float", a_re2), ("if", a_re3), ("else",a_re4),
-	 ("for", a_re5), ("while", a_re6), ("ID", a_ID), ("Num", a_Num), (":=", a_OpRel1),
-	 ("<", a_OpRel2), (">", a_OpRel3), ("<=", a_OpRel4),
-	 (">=", a_OpRel5), ("!=", a_OpRel6), ("==", a_OpRel7),
-	 ("(", a_ParOpen), (")", a_ParClose),
-	 ("{", a_BraOpen), ("}", a_BraClose), (",", a_Comma), (";", a_SemiColon),
-	 ("+", a_Sum), ("-" ,a_Minus), ("*", a_Product), ("/", a_Division)]
+TT = [("Reservada", a_re1), ("Reservada", a_re2), ("Reservada", a_re3), ("Reservada",a_re4),
+	 ("Reservada", a_re5), ("Reservada", a_re6), ("ID", a_ID), ("Num", a_Num), ("OpRel", a_OpRel1),
+	 ("OpRel", a_OpRel2), ("OpRel", a_OpRel3), ("OpRel", a_OpRel4),
+	 ("OpRel", a_OpRel5), ("OpRel", a_OpRel6), ("OpRel", a_OpRel7),
+	 ("ParOpen", a_ParOpen), ("ParClose", a_ParClose),
+	 ("BraOpen", a_BraOpen), ("BraClose", a_BraClose), ("Comma", a_Comma), ("SemiColon", a_SemiColon),
+	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division)]
 	 # ("errorIDNum", a_ErrorIDNum), ("errorNumID", a_ErrorNumID), ("errorOpMat", a_ErrorOpMat),
 	 # ("errorBraOpen", a_ErrorBraOpen), ("errorBraClose", a_ErrorBraClose), ("errorInvalido", a_ErrorInvalido)]
 
