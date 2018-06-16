@@ -342,11 +342,11 @@ def a_Division (word):
             s = -1
     return (s == 1)
 
-TT = [("ID", a_ID), ("Num", a_Num), (":=", a_OpRel1),
+TT = [("int", a_re1), ("float", a_re2), ("if", a_re3), ("else",a_re4),
+	 ("for", a_re5), ("while", a_re6), ("ID", a_ID), ("Num", a_Num), (":=", a_OpRel1),
 	 ("<", a_OpRel2), (">", a_OpRel3), ("<=", a_OpRel4),
 	 (">=", a_OpRel5), ("!=", a_OpRel6), ("==", a_OpRel7),
-	 ("int", a_re1), ("float", a_re2), ("if", a_re3), ("else",a_re4),
-	 ("for", a_re5), ("while", a_re6), ("(", a_ParOpen), (")", a_ParClose),
+	 ("(", a_ParOpen), (")", a_ParClose),
 	 ("{", a_BraOpen), ("}", a_BraClose), (",", a_Comma), (";", a_SemiColon),
 	 ("+", a_Sum), ("-" ,a_Minus), ("*", a_Product), ("/", a_Division)]
 	 # ("errorIDNum", a_ErrorIDNum), ("errorNumID", a_ErrorNumID), ("errorOpMat", a_ErrorOpMat),
