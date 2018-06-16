@@ -526,6 +526,17 @@ def a_ErrorInvalido (tokens, lexeme, src, i):
 			del(tokens[0])
 	return error
 
+TT = [("ID", a_ID(lexeme)), ("Num", a_Num(lexeme)), (":=", a_OpRel1(lexeme)),
+	 ("<", a_OpRel2(lexeme)), (">", a_OpRel3(lexeme)), ("<=", a_OpRel4(lexeme)),
+	 (">=", a_OpRel5(lexeme)), ("!=", a_OpRel6(lexeme)), ("==", a_OpRel7(lexeme)),
+	 ("int", a_re1(lexeme)), ("float", a_re2(lexeme)), ("if", a_re3(lexeme)), ("else",a_re4(lexeme)),
+	 ("for", a_re5(lexeme)), ("while", a_re6(lexeme)), ("(", a_ParOpen(lexeme)), (")", a_ParClose(lexeme)),
+	 ("{", a_BraOpen(lexeme)), ("}", a_BraClose(lexeme)), (",", a_Comma(lexeme)), (";", a_SemiColon(lexeme)),
+	 ("+", a_Sum(lexeme)), ("-" ,a_Minus(lexeme)), ("*", a_Product(lexeme)), ("/", a_Division(lexeme)),
+	 ("errorIDNum", a_ErrorIDNum(lexeme)), ("errorNumID", a_ErrorNumID(lexeme)), ("errorOpMat", a_ErrorOpMat(lexeme)),
+	 ("errorBraOpen", a_ErrorBraOpen(lexeme)), ("errorBraClose", a_ErrorBraClose(lexeme)), ("errorInvalido", a_ErrorInvalido(lexeme))]
+
+
 # Al finalizar el lexer debe aceptar estas srcs
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x = y) a := 2+2}"))
 print('\n')
