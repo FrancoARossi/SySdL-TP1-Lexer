@@ -34,8 +34,8 @@ def lexer(src):
 			state = 0
 	return tokens
 
-
 # Esta funcion busca candidatos para la palabra actual
+
 def es_aceptado(word):
 	candidatos = []
 	for (token, afd) in TT :
@@ -363,29 +363,51 @@ def a_Division (word):
 			break
 	return (s == 1)
 
+# def a_ErrorIDNum(word):
+	# c = word[0]
+	# error = false
+	# if c.isalpha() :
+		# error = any(c.isdigit() for c in word)
+	# elif c.isdigit() :
+		# error = any(c.isalpha() for c in word)
+	# return error
+
 def a_ErrorIDNum (word):
-	if(word[0].isalpha()):
-		state = 1
-		if(state == 1 and any(char.isdigit() for char in inputString)):
-			state = 2
+	s = 0
+	c = word[0]
+	if c.isalpha() :
+		s = 1
+		for c in word :
+			if c.isalpha():
+				s = 1
+			elif s == 1 and c.isdigit():
+				s = 2
+				break
+	elif c.isdigit() :
+		s = 1
+		for c in word :
+			if c.isdigit():
+				s = 1
+			elif s == 1 and c.isalpha():
+				s = 2
+				break
 	return (s == 2)
 
-print(a_ErrorIDNum('asd3'))
-
-TT = [("Reservada", a_re1), ("Reservada", a_re2), ("Reservada", a_re3), ("Reservada",a_re4),
-	 ("Reservada", a_re5), ("Reservada", a_re6), ("ID", a_ID), ("Num", a_Num), ("SimbUnico" ,a_SimbUnico),
+TT = [
+	 ("errorIDNum", a_ErrorIDNum),
+ 	 ("Reservada", a_re1), ("Reservada", a_re2), ("Reservada", a_re3), ("Reservada",a_re4),
+	 ("Reservada", a_re5), ("Reservada", a_re6), ("ID", a_ID), ("Num", a_Num),
 	 ("OpRel", a_OpRel1), ("OpRel", a_OpRel2), ("OpRel", a_OpRel3), ("OpRel", a_OpRel4),
 	 ("OpRel", a_OpRel5), ("OpRel", a_OpRel6), ("OpRel", a_OpRel7),
 	 ("ParOpen", a_ParOpen), ("ParClose", a_ParClose),
 	 ("BraOpen", a_BraOpen), ("BraClose", a_BraClose), ("Comma", a_Comma), ("SemiColon", a_SemiColon),
-	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division)]
-	 # ("errorIDNum", a_ErrorIDNum), ("errorNumID", a_ErrorNumID), ("errorOpMat", a_ErrorOpMat),
+	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("SimbUnico" ,a_SimbUnico),
+	 ]
+	 #  ("errorOpMat", a_ErrorOpMat),
 	 # ("errorBraOpen", a_ErrorBraOpen), ("errorBraClose", a_ErrorBraClose), ("errorInvalido", a_ErrorInvalido)]
 
 # Estas srcs deben devolver un token de error
-#print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}"))
-#prueba = lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}")
-#prueba = lexer("int for abc")
-#for i in range(len(prueba)):
-#	print (prueba[i])
+prueba = lexer("int miFuncion(float a,int b){ for(c:=9, x <= y123) a := 2+2}")
+for i in range(len(prueba)):
+ 	print (prueba[i])
 # Exit Debug
