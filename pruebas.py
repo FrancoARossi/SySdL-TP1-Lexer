@@ -2,10 +2,10 @@ SimbolosDeLaGramatica = [':=', '<', '>', '>=', '<=', '!=', '==', '(', ')', '{', 
 
 def lexer(src):
 	tokens = []
-	src = src + ' '
 	i = 0
 	start = 0
 	state = 0
+	src = src + ' '
 	
 	while i < len(src) :
 		c = src[i]
@@ -27,7 +27,7 @@ def lexer(src):
 		elif state == 2 :
 			candidatos = evaluar(word)
 			if (len(candidatos) == 0):
-				print("Error, lista de candidatos vacia.")
+				print("Error. Lista de candidatos vacia.")
 				break
 			tokentype = candidatos[0]
 			tokens.append((tokentype, word))
