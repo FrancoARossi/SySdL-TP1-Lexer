@@ -1,6 +1,4 @@
-opLog = [':=', '<', '>', '>=', '<=', '!=', '==']
-opMat = ['+', '*', '-', '/']
-simbolos = ['(', ')', '{', '}', ',']
+SimbolosDeLaGramatica = [':=', '<', '>', '>=', '<=', '!=', '==', '(', ')', '{', '}', ',', '+', '*', '-', '/']
 
 def lexer(src):
 	tokens = []
@@ -387,6 +385,7 @@ def a_ErrorIDNum (word):
 				break
 	return (s == 2)
 
+# Aca se usan 3 estados para hacer el automata recursivo que detecte multiples simbolos
 def a_ErrorOpMat (word):
 	s = 0
 	for c in word:
@@ -396,22 +395,40 @@ def a_ErrorOpMat (word):
 			s = 2
 		elif s == 2 and (c == "+" or c == "-" or c == "/" or c == "*"):
 			pass
+		else:
+			s = -1
+			break
 	return (s == 2)
+
+def a_ErrorSimbInvalido (word):
+	s = 0
+	for c in word:
+		if s == 0 and (not c in SimbolosDeLaGramatica and not c.isalpha() and not c.isdigit()):
+			s = 1
+		elif s == 1 and (not c in SimbolosDeLaGramatica and not c.isalpha() and not c.isdigit()):
+			pass
+		else:
+			s = -1
+			break
+	return (s == 1)
 
 # La lista de Tipos de Tokens esta ordenada por prioridad,
 # ya que el candidato utilizado sera el primero de la lista.
 
-TT = [("errorIDNum", a_ErrorIDNum), ("errorOpMat", a_ErrorOpMat), ("Reservada", a_re1), ("Reservada", a_re2), ("Reservada", a_re3), ("Reservada",a_re4),
+TT = [("errorIDNum", a_ErrorIDNum), ("errorOpMat", a_ErrorOpMat),
+	 ("Reservada", a_re1), ("Reservada", a_re2), ("Reservada", a_re3), ("Reservada",a_re4),
 	 ("Reservada", a_re5), ("Reservada", a_re6), ("ID", a_ID), ("Num", a_Num),
 	 ("OpRel", a_OpRel1), ("OpRel", a_OpRel2), ("OpRel", a_OpRel3), ("OpRel", a_OpRel4),
 	 ("OpRel", a_OpRel5), ("OpRel", a_OpRel6), ("OpRel", a_OpRel7),
 	 ("ParOpen", a_ParOpen), ("ParClose", a_ParClose),
 	 ("BraOpen", a_BraOpen), ("BraClose", a_BraClose), ("Comma", a_Comma), ("SemiColon", a_SemiColon),
-	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("SimbUnico" ,a_SimbUnico)]
-	 # ("errorOpMat", a_ErrorOpMat),
-	 # ("errorBraOpen", a_ErrorBraOpen), ("errorBraClose", a_ErrorBraClose), ("errorInvalido", a_ErrorInvalido)]
+	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("SimbUnico" ,a_SimbUnico),
+	 ("errorSimbInvalido", a_ErrorSimbInvalido)]
+	 #("errorInvalido", a_ErrorInvalido)]
 
 # Estas srcs deben devolver un token de error
+print(lexer("a := 3 %~ ^^ ´ 2;"))
+print("")
 print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}"))
 print("")
 
@@ -423,5 +440,7 @@ print(lexer("123abc"))
 print("")
 print(lexer("a := 3 ++++ 2;"))
 print("")
-print(lexer("a := 3 -+/* 2;"))
+print(lexer("a := 3 -+/** 2;"))
+print("")
+print(lexer("a := 3 % 2;"))
 # Exit Debug
