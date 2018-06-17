@@ -424,7 +424,6 @@ TT = [("errorIDNum", a_ErrorIDNum), ("errorOpMat", a_ErrorOpMat),
 	 ("BraOpen", a_BraOpen), ("BraClose", a_BraClose), ("Comma", a_Comma), ("SemiColon", a_SemiColon),
 	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("SimbUnico" ,a_SimbUnico),
 	 ("errorSimbInvalido", a_ErrorSimbInvalido)]
-	 #("errorInvalido", a_ErrorInvalido)]
 
 # Estas srcs deben devolver un token de error
 print(lexer("a := 3 %~ ^^ ´ 2;"))
