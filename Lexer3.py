@@ -33,7 +33,9 @@ def lexer(src):
 			i += 1
 			state = 0
 	return tokens
-				
+
+# Esta funcion busca candidatos para la palabra actual
+
 def es_aceptado(word):
 	candidatos = []
 	for (token, afd) in TT :
@@ -44,12 +46,16 @@ def es_aceptado(word):
 	else:
 		return False
 
+# Esta funcion evalua los candidatos encontrados
+
 def evaluar(word):
 	candidatos = []
 	for (token,afd) in TT :
 		if afd(word) :
 			candidatos.append(token)
 	return candidatos
+
+# Automatas de tokens
 
 def a_ID(word):
 	s=0
