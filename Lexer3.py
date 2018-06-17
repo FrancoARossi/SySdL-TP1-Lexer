@@ -28,6 +28,9 @@ def lexer(src):
 				state = 2
 		elif state == 2 :
 			candidatos = evaluar(word)
+			if (len(candidatos) == 0):
+				print("Error, lista de candidatos vacia.")
+				break
 			tokentype = candidatos[0]
 			tokens.append((tokentype, word))
 			i += 1
@@ -391,7 +394,7 @@ TT = [("errorIDNum", a_ErrorIDNum), ("Reservada", a_re1), ("Reservada", a_re2), 
 	 ("ParOpen", a_ParOpen), ("ParClose", a_ParClose),
 	 ("BraOpen", a_BraOpen), ("BraClose", a_BraClose), ("Comma", a_Comma), ("SemiColon", a_SemiColon),
 	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("SimbUnico" ,a_SimbUnico)]
-	 # ("errorIDNum", a_ErrorIDNum), ("errorNumID", a_ErrorNumID), ("errorOpMat", a_ErrorOpMat),
+	 # ("errorOpMat", a_ErrorOpMat),
 	 # ("errorBraOpen", a_ErrorBraOpen), ("errorBraClose", a_ErrorBraClose), ("errorInvalido", a_ErrorInvalido)]
 
 # Estas srcs deben devolver un token de error
