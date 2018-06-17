@@ -58,14 +58,14 @@ def evaluar(word):
 # Automatas de tokens
 
 def a_ID(word):
-	s=0
+	s = 0
 	for c in word:
-		if s==0 and c.isalpha():
-			s=1
-		elif s==1 and c.isalpha():
-			s=1
+		if s == 0 and c.isalpha():
+			s = 1
+		elif s == 1 and c.isalpha():
+			s = 1
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 1)
 
@@ -80,7 +80,7 @@ def a_SimbUnico(word):
 	return (s == 1)
 
 def a_Num(word):
-	s=0
+	s = 0
 	for c in word:
 		if s == 0 and c.isdigit():
 			s = 1
@@ -92,83 +92,82 @@ def a_Num(word):
 	return (s == 1)
 
 def a_OpRel1(word):
-	s=0;
+	s = 0
 	for c in word:
-		if s==0 and c==':':
-			s=1
-		elif s==1 and c=='=':
-			s=2
+		if s == 0 and c == ':':
+			s = 1
+		elif s==1 and c == '=':
+			s = 2
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 2)
 
 def a_OpRel2(word):
-	s=0;
+	s = 0
 	for c in word:
-		if s==0 and c=='<':
-			s=1
+		if s == 0 and c == '<':
+			s = 1
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 1)
 
 def a_OpRel3(word):
-	s=0;
+	s= 0
 	for c in word:
-		if s==0 and c=='>':
-			s=1
+		if s == 0 and c == '>':
+			s = 1
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 1)
 
-
 def a_OpRel4(word):
-	s=0;
+	s = 0
 	for c in word:
-		if s==0 and c=='<':
-			s=1
-		elif s==1 and c=='=':
-			s=2
+		if s == 0 and c == '<':
+			s = 1
+		elif s==1 and c == '=':
+			s = 2
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 2)
 
 def a_OpRel5(word):
-	s=0;
+	s = 0
 	for c in word:
-		if s==0 and c=='>':
-			s=1
-		elif s==1 and c=='=':
-			s=2
+		if s == 0 and c == '>':
+			s = 1
+		elif s == 1 and c == '=':
+			s = 2
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 2)
 	
 def a_OpRel6(word):
-	s=0;
+	s = 0
 	for c in word:
-		if s==0 and c=='!':
-			s=1
-		elif s==1 and c=='=':
-			s=2
+		if s == 0 and c == '!':
+			s = 1
+		elif s == 1 and c == '=':
+			s = 2
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 2)
 
 def a_OpRel7(word):
-	s=0;
+	s = 0
 	for c in word:
-		if s==0 and c=='=':
-			s=1
-		elif s==1 and c=='=':
-			s=2
+		if s == 0 and c == '=':
+			s = 1
+		elif s == 1 and c == '=':
+			s = 2
 		else:
-			s=-1
+			s = -1
 			break
 	return (s == 2)
 
@@ -367,7 +366,7 @@ def a_Division (word):
 '''def a_ErrorIDNum (word):
 	s = 0
 	for c in word
-		if c.isalpha():
+		if s == 0 and c.isalpha():
 			s = 1
 		elif s == 1 and c.isdigit():
 			s = 2
