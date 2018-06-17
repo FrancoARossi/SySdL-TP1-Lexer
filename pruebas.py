@@ -406,7 +406,7 @@ def a_ErrorSimbInvalido (word):
 		if s == 0 and (not c in SimbolosDeLaGramatica and not c.isalpha() and not c.isdigit()):
 			s = 1
 		elif s == 1 and (not c in SimbolosDeLaGramatica and not c.isalpha() and not c.isdigit()):
-			pass
+			break
 		else:
 			s = -1
 			break
@@ -422,24 +422,32 @@ TT = [("errorIDNum", a_ErrorIDNum), ("errorOpMat", a_ErrorOpMat),
 	 ("OpRel", a_OpRel5), ("OpRel", a_OpRel6), ("OpRel", a_OpRel7),
 	 ("ParOpen", a_ParOpen), ("ParClose", a_ParClose),
 	 ("BraOpen", a_BraOpen), ("BraClose", a_BraClose), ("Comma", a_Comma), ("SemiColon", a_SemiColon),
-	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("SimbUnico" ,a_SimbUnico),
+	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("errorSimbUnico" ,a_SimbUnico),
 	 ("errorSimbInvalido", a_ErrorSimbInvalido)]
 
 # Estas srcs deben devolver un token de error
-print(lexer("a := 3 %~ ^^ ´ 2;"))
-print("")
-print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}"))
-print("")
+# print(lexer("a := 3 %~ ^^ ´ 2;"))
+# print("")
+# print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}"))
+# print("")
 
 # Estas srcs deben devolver un token de error
 
-print(lexer("abc123"))
-print("")
-print(lexer("123abc"))
-print("")
-print(lexer("a := 3 ++++ 2;"))
-print("")
-print(lexer("a := 3 -+/** 2;"))
-print("")
-print(lexer("a := 3 % 2;"))
-# Exit Debug
+# print(lexer("abc123"))
+# print("")
+# print(lexer("123abc"))
+# print("")
+# print(lexer("a := 3 ++++ 2;"))
+# print("")
+# print(lexer("a := 3 -+/** 2;"))
+# print("")
+# print(lexer("a := 3 % 2;"))
+
+# Esto no debería suceder, no?
+
+# Esto no es tomado como simbolo inválido
+print(a_ErrorSimbInvalido(":=%+"))
+
+# Esto es tomado como Num,2 ; SimbUnico,: ; Num,3
+print(lexer("2 : 3"))
+# Creo que debería ser un error eso
