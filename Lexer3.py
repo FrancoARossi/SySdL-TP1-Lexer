@@ -362,15 +362,6 @@ def a_Division (word):
 			s = -1
 			break
 	return (s == 1)
-
-# def a_ErrorIDNum(word):
-	# c = word[0]
-	# error = false
-	# if c.isalpha() :
-		# error = any(c.isdigit() for c in word)
-	# elif c.isdigit() :
-		# error = any(c.isalpha() for c in word)
-	# return error
 	
 def a_ErrorIDNum (word):
 	s = 0
