@@ -406,7 +406,7 @@ def a_ErrorSimbInvalido (word):
 		if s == 0 and (not c in SimbolosDeLaGramatica and not c.isalpha() and not c.isdigit()):
 			s = 1
 		elif s == 1 and (not c in SimbolosDeLaGramatica and not c.isalpha() and not c.isdigit()):
-			pass
+			break
 		else:
 			s = -1
 			break
@@ -422,7 +422,7 @@ TT = [("errorIDNum", a_ErrorIDNum), ("errorOpMat", a_ErrorOpMat),
 	 ("OpRel", a_OpRel5), ("OpRel", a_OpRel6), ("OpRel", a_OpRel7),
 	 ("ParOpen", a_ParOpen), ("ParClose", a_ParClose),
 	 ("BraOpen", a_BraOpen), ("BraClose", a_BraClose), ("Comma", a_Comma), ("SemiColon", a_SemiColon),
-	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("SimbUnico" ,a_SimbUnico),
+	 ("OpMat", a_Sum), ("OpMat" ,a_Minus), ("OpMat", a_Product), ("OpMat", a_Division), ("errorSimbUnico" ,a_SimbUnico),
 	 ("errorSimbInvalido", a_ErrorSimbInvalido)]
 
 # Estas srcs deben devolver un token de error
