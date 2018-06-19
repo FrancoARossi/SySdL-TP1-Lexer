@@ -53,7 +53,7 @@ def es_aceptado(word) :
 
 def evaluar(word) :
 	candidatos = []
-	for (token,afd) in TT :
+	for (token, afd) in TT :
 		if afd(word) :
 			candidatos.append(token)
 	return candidatos
@@ -81,8 +81,8 @@ def a_ErrorIDNum(word) :
 				break
 	return (s == 2)
 
-# Aqui se usan tres estados ya que si usáramos dos, tomaria prioridad como aceptado
-# antes que los automatas de operadores matemáticos.
+# Aqui se usan tres estados, los 2 primeros condicionales buscan al menos 2 simbolos matematicos juntos,
+# el tercer condicional sirve para que el automata identifique mas de 2 simbolos matematicos juntos de ser necesario.
 def a_ErrorOpMat(word) :
 	s = 0
 	for c in word :
