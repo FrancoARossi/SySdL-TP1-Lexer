@@ -1,3 +1,4 @@
+# Esta lista se usara mas adelante en el automata que bsuca simbolos que no perteneces a la Gramatica.
 SimbolosDeLaGramatica = [':=', '<', '>', '>=', '<=', '!=', '==', '(', ')', '{', '}', ',', '+', '*', '-', '/']
 
 def lexer(src) :
