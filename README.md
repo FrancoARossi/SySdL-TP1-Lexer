@@ -1,8 +1,12 @@
 # SySdL-TP1-Lexer
 
-Link del TP Lexer: https://docs.google.com/viewer?a=v&pid=sites&srcid=ZGVmYXVsdGRvbWFpbnxzc2xhdGRlbHRhfGd4OjQwYmQxYjFmYzc0M2ZmM2M
+-Link del TP Lexer: https://docs.google.com/viewer?a=v&pid=sites&srcid=ZGVmYXVsdGRvbWFpbnxzc2xhdGRlbHRhfGd4OjQwYmQxYjFmYzc0M2ZmM2M
 
-Link del TP Parser: https://docs.google.com/viewer?a=v&pid=sites&srcid=ZGVmYXVsdGRvbWFpbnxzc2xhdGRlbHRhfGd4OjU5NmIwOWJkY2NjZGNlZTg
+-Informe TP Lexer : https://docs.google.com/document/d/1Bd9TDr5TPAzvODmRGZ_6Hd43O3RrOd_AXHzdl53Z0QY
+
+--Link del TP Parser: https://docs.google.com/viewer?a=v&pid=sites&srcid=ZGVmYXVsdGRvbWFpbnxzc2xhdGRlbHRhfGd4OjU5NmIwOWJkY2NjZGNlZTg
+
+--Informe TP Parser: https://docs.google.com/document/d/11RCq7obBAIQdtA7m-EL7DUAp31hU6u42E02kR-HYAp0
 
 Pagina de Sintaxis: https://sites.google.com/site/sslatdelta/
 
