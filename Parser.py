@@ -13,7 +13,7 @@ def parser(TokenTypes):
 
 def PN1(pw):
 	global error
-	j = 1
+	j = 0
 	#No me cierra esta condicion de salida... en el algoritmo pone j <= k donde k es el numero de producciones de Ni
 	# en este caso hay 1 sola produccion pero por como esta planteado el algoritmo cuando se llega al if por primera
 	# vez j ya vale 2
@@ -34,8 +34,35 @@ def PN1(pw):
 
 def Procesar(produ, pw):
 	global error
-	pass
+	# j tiene que ir desde 0 hasta la cantidad de producciones del VN
+	# pero como sabe cuantas tiene si en los PNs esta hardcodeado?
+	for j in (0, ):
 
 def finDeCadena(TokenTypes, pw):
 	#se compara TokenTypes(len(TokenTypes)) == lista[t]
 	pass
+
+
+VT = [
+		"ParOpen", "ParClose", "BraOpen", "BraClose", "OpMat", "ID", "Num", "Reservada", "Comma", "SemiColon", "OpRel"
+	]
+
+VN = [
+		"Funcion", "ListaArgumentos", "Argumento", "Declaracion", "ListaIdent", "Sentencia", "SentFor", "Expr", "ExprOpt", "SentWhile", "SentIf", "SentenciaCompuesta", "ListaSentencia", "ValorR", "Mag", "Factor", "Termino", "AuxVR", "AuxM", "AuxT"
+	]
+
+P = [ #producciones
+		[
+			[
+				"ReservadaIDParOpen", "<ListaArgumentos>", "ParClose", "<SentenciaCompuesta>"
+			]
+		],
+		[
+			[
+
+			]
+		],
+		[
+
+		]
+	]
