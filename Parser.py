@@ -5,13 +5,15 @@ error = False
 def parser(TokenTypes):
 	# la variable t (indice del token apuntado) es global
 	pw = 0
-	PN1(t)
+	PN1(pw)
 	if not error and finDeCadena(TokenTypes, pw):
 		return True
 	else:
 		return False
 
 def PN1(pw):
+	global error
+	j = 1
 	#No me cierra esta condicion de salida... en el algoritmo pone j <= k donde k es el numero de producciones de Ni
 	# en este caso hay 1 sola produccion pero por como esta planteado el algoritmo cuando se llega al if por primera
 	# vez j ya vale 2
@@ -31,6 +33,7 @@ def PN1(pw):
 # Para mi deberia ser while (not(error) and (j <= 1))
 
 def Procesar(produ, pw):
+	global error
 	pass
 
 def finDeCadena(TokenTypes, pw):
