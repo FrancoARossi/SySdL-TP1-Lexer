@@ -13,7 +13,6 @@ def parser(TokenTypes):
 
 def PN1(pw):
 	global error
-	j = 0
 	#No me cierra esta condicion de salida... en el algoritmo pone j <= k donde k es el numero de producciones de Ni
 	# en este caso hay 1 sola produccion pero por como esta planteado el algoritmo cuando se llega al if por primera
 	# vez j ya vale 2
@@ -21,8 +20,8 @@ def PN1(pw):
 	# esta bien que rompa ya que el procedimiento lo debe hacer solo una vez para PN1 (ya que tiene una sola produccion
 	# el simbolo inicial)
 
-	j = 1
-	while (error and (j <= 1)):
+	j = 0
+	while (error and (j <= 0)):
 		error = False
 		Procesar(produ, pw)
 		j += 1
