@@ -60,7 +60,7 @@ VT = [
 	]
 
 VN = [
-		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<ExprOpt>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
+		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
 	]
 
 P = [ # Producciones
@@ -120,15 +120,16 @@ P = [ # Producciones
 		],
 		[ # <SentFor>
 			[
-				"Reservada", "ParOpen", "<Expr>", "Comma", "<ExprOpt>", "Comma", "<ExprOpt>", "ParClose", "<Sentencia>", "SemiColon"
-			]
-		],
-		[ # <ExprOpt>
-			[
-				"<Expr>"
+				"Reservada", "ParOpen", "<Expr>", "Comma", "<Expr>", "Comma", "<Expr>", "ParClose", "<Sentencia>"
 			],
 			[
-				lambada #anulable? chan chan CHAN!
+				"Reservada","ParOpen","<Expr>", "Comma","Comma","<Expr>","ParClose", "<Sentencia>"
+			],
+			[
+				"Reservada","ParOpen","<Expr>", "Comma","<Expr>","Comma","ParClose", "<Sentencia>"
+			],
+			[
+				"Reservada","ParOpen","<Expr>", "Comma","Comma","ParClose", "<Sentencia>"
 			]
 		],
 		[ # <SentWhile>
