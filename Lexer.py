@@ -7,7 +7,7 @@ def lexer(src) :
 	start = 0
 	state = 0
 	src = src + ' '
-	
+
 	while i < len(src) :
 		c = src[i]
 		word = src[start:i+1]
@@ -34,7 +34,7 @@ def lexer(src) :
 			tokens.append((tokentype, word))
 			i += 1
 			state = 0
-	
+
 	return tokens
 
 # Esta funcion devuelve True si la palabra es aceptada por al menos un automata
@@ -43,7 +43,7 @@ def es_aceptado(word) :
 	candidatos = []
 	for (token, afd) in TT :
 		if afd(word) :
-			candidatos.append(token)		
+			candidatos.append(token)
 	if len(candidatos) > 0 :
 		return True
 	else :
@@ -275,7 +275,7 @@ def a_OpRel5(word) :
 			s = -1
 			break
 	return (s == 2)
-	
+
 def a_OpRel6(word) :
 	s = 0
 	for c in word :
@@ -443,18 +443,18 @@ TT = [("errorIDNum", a_ErrorIDNum), ("errorOpMat", a_ErrorOpMat),
 
 ## Sources
 
-print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}"))
-print("")
+#print(lexer("int miFuncion(float a,int b){ for(c:=9, x <= y) a := 2+2}"))
+#print("")
 
 # Estas sources deben devolver un token de error
-print(lexer("a := 3 %~ ^^ ´ 2;"))
-print("")
-print(lexer("abc123"))
-print("")
-print(lexer("123abc"))
-print("")
-print(lexer("a := 3 ++++ 2;"))
-print("")
-print(lexer("a := 3 -+/** 2;"))
-print("")
-print(lexer("a := 3 % 2;"))
+#print(lexer("a := 3 %~ ^^ ´ 2;"))
+#print("")
+#print(lexer("abc123"))
+#print("")
+#print(lexer("123abc"))
+#print("")
+#print(lexer("a := 3 ++++ 2;"))
+#print("")
+#print(lexer("a := 3 -+/** 2;"))
+#print("")
+#print(lexer("a := 3 % 2;"))
