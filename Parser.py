@@ -3,6 +3,7 @@ from Lexer.py import lexer
 error = False
 Tokens = []
 
+#Captura solo el token de la salida del Lexer e ignora el lexema
 def tratamientoTokens(Input):
 	tokens = []
 	for (a,b) in Input:
@@ -11,7 +12,8 @@ def tratamientoTokens(Input):
 
 def parser(Input):
 	# la variable t (indice del token apuntado) es global
-	global Tokens = tratamientoTokens(Input)
+	global Tokens
+	Tokens = tratamientoTokens(Input)
 	pw = 0
 	PN0(pw)
 	if not error and finDeCadena(Tokens, pw):
@@ -23,7 +25,7 @@ def parser(Input):
 def PNi(i, pw):
 	global error
 	j = 0
-	while (not error and ( j < P[i].len()):
+	while (not error and ( j < P[i].len())):
 		error = False
 		Procesar(P[i][j], pw)
 		j += 1
@@ -49,17 +51,22 @@ def finDeCadena(Tokens, pw):
 	return (Tokens.len() - 1) == pw
 
 ################################################################################
-#Pruebas
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
-#assert parser(id) == IntType
+#Asserts
+inputs = [
+			"int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}",
+			"int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}",
+			"a := 3 %~ ^^ ´ 2;",
+			"123abc",
+			"a := 3 ++++ 2;",
+			"a := 3 -+/** 2;",
+			"a := 3 % 2;",
+			"abc123",
+			"float holi(int a, int b){ while( x := 20) ;}",
+			"float gatito(a > b);"
+		]
+
+for i in range(10):
+	assert parser(lexer(inputs[i]))
 ################################################################################
 VN = [
 		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
