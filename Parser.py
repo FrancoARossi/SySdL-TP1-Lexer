@@ -3,9 +3,15 @@ from Lexer.py import lexer
 error = False
 Tokens = []
 
-def parser(Tokens):
+def tratamientoTokens(Input):
+	tokens = []
+	for (a,b) in Input:
+		tokens.append(a)
+	return tokens
+
+def parser(Input):
 	# la variable t (indice del token apuntado) es global
-	global Tokens = Tokens
+	global Tokens = tratamientoTokens(Input)
 	pw = 0
 	PN0(pw)
 	if not error and finDeCadena(Tokens, pw):
@@ -13,31 +19,20 @@ def parser(Tokens):
 	else:
 		return False
 
+#Se define un procedimiento recursivo indirecto a reutilizar con el argumento i
 def PNi(i, pw):
 	global error
-	#No me cierra esta condicion de salida... en el algoritmo pone j <= k donde k es el numero de producciones de Ni
-	# en este caso hay 1 sola produccion pero por como esta planteado el algoritmo cuando se llega al if por primera
-	# vez j ya vale 2
-
-	# esta bien que rompa ya que el procedimiento lo debe hacer solo una vez para PN1 (ya que tiene una sola produccion
-	# el simbolo inicial)
-
 	j = 0
 	while (not error and ( j < P[i].len()):
 		error = False
 		Procesar(P[i][j], pw)
 		j += 1
 
-# lo de la diapositiva no es un repetir hasta, es un while normal, ya que continua en el ciclo MIENTRAS
-# se cumpla la condicion, lo que me parece raro es que en la condicion este error si negar, por lo que
-# si llega con el valor por defecto (false) no va a entrar en el ciclo, deberiamos preguntar que onda eso.
-# Para mi deberia ser while (not(error) and (j <= 1))
-
 def Procesar(produ, pw):
 	global error
-	# k tiene que ir desde 0 hasta la cantidad de producciones del VN
-	# pero como sabe cuantas tiene si en los PNs esta hardcodeado?
-	for k in (0, len(produ)-1): #esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
+
+	#esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
+	for k in (0, produ.len() - 1):
 		if (produ[k] in Tokens):
 			if (Tokens[pw] == produ[k]):
 				pw += 1
@@ -51,14 +46,21 @@ def Procesar(produ, pw):
 				break
 
 def finDeCadena(Tokens, pw):
-	#se compara Tokens(len(Tokens)) == lista[t]
-	pass
+	return (Tokens.len() - 1) == pw
 
-
-VT = [
-		"ParOpen", "ParClose", "BraOpen", "BraClose", "OpMat", "ID", "Num", "Reservada", "Comma", "SemiColon", "OpRel"
-	]
-
+################################################################################
+#Pruebas
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+#assert parser(id) == IntType
+################################################################################
 VN = [
 		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
 	]
