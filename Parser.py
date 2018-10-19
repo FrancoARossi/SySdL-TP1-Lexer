@@ -1,12 +1,14 @@
 from Lexer.py import lexer
 
 error = False
+Tokens = []
 
-def parser(TokenTypes):
+def parser(Tokens):
 	# la variable t (indice del token apuntado) es global
+	global Tokens = Tokens
 	pw = 0
 	PN0(pw)
-	if not error and finDeCadena(TokenTypes, pw):
+	if not error and finDeCadena(Tokens, pw):
 		return True
 	else:
 		return False
@@ -36,17 +38,20 @@ def Procesar(produ, pw):
 	# k tiene que ir desde 0 hasta la cantidad de producciones del VN
 	# pero como sabe cuantas tiene si en los PNs esta hardcodeado?
 	for k in (0, len(produ)-1): #esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
-		if (produ[k] in loqueanalizoellexer):
-			if (loqueanlizoellexer[pw] == produ[k]):
+		if (produ[k] in Tokens):
+			if (Tokens[pw] == produ[k]):
 				pw += 1
 			else:
 				error = True
 				break
 		elif (produ[k] in VN):
-			PNi[]
+			i = VN.index(produ[k])
+			PNi(i, pw)
+			if error:
+				break
 
-def finDeCadena(TokenTypes, pw):
-	#se compara TokenTypes(len(TokenTypes)) == lista[t]
+def finDeCadena(Tokens, pw):
+	#se compara Tokens(len(Tokens)) == lista[t]
 	pass
 
 
@@ -58,7 +63,7 @@ VN = [
 		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<ExprOpt>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
 	]
 
-P = [ #producciones
+P = [ # Producciones
 		[ # <Funcion>
 			[
 				"ReservadaID", "ParOpen", "<ListaArgumentos>", "ParClose", "<SentenciaCompuesta>"
