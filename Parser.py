@@ -1,73 +1,8 @@
-from Lexer.py import lexer
+from Lexer import lexer
 
 error = False
 Tokens = []
 
-#Captura solo el token de la salida del Lexer e ignora el lexema
-def tratamientoTokens(Input):
-	tokens = []
-	for (a,b) in Input:
-		tokens.append(a)
-	return tokens
-
-def parser(Input):
-	# la variable t (indice del token apuntado) es global
-	global Tokens
-	Tokens = tratamientoTokens(Input)
-	pw = 0
-	PN0(pw)
-	if not error and finDeCadena(Tokens, pw):
-		return True
-	else:
-		return False
-
-#Se define un procedimiento recursivo indirecto a reutilizar con el argumento i
-def PNi(i, pw):
-	global error
-	j = 0
-	while (not error and ( j < P[i].len())):
-		error = False
-		Procesar(P[i][j], pw)
-		j += 1
-
-def Procesar(produ, pw):
-	global error
-
-	#esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
-	for k in (0, produ.len() - 1):
-		if (produ[k] in Tokens):
-			if (Tokens[pw] == produ[k]):
-				pw += 1
-			else:
-				error = True
-				break
-		elif (produ[k] in VN):
-			i = VN.index(produ[k])
-			PNi(i, pw)
-			if error:
-				break
-
-def finDeCadena(Tokens, pw):
-	return (Tokens.len() - 1) == pw
-
-################################################################################
-#Asserts
-inputs = [
-			"int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}",
-			"int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}",
-			"a := 3 %~ ^^ ´ 2;",
-			"123abc",
-			"a := 3 ++++ 2;",
-			"a := 3 -+/** 2;",
-			"a := 3 % 2;",
-			"abc123",
-			"float holi(int a, int b){ while( x := 20) ;}",
-			"float gatito(a > b);"
-		]
-
-for i in range(10):
-	assert parser(lexer(inputs[i]))
-################################################################################
 VN = [
 		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
 	]
@@ -241,3 +176,71 @@ P = [ # Producciones
 			]
 		]
 	]
+
+
+#Captura solo el token de la salida del Lexer e ignora el lexema
+def tratamientoTokens(Input):
+	tokens = []
+	for (a,b) in Input:
+		tokens.append(a)
+	return tokens
+
+def parser(Input):
+	global Tokens
+	Tokens = tratamientoTokens(Input)
+	pw = 0
+	PNi(0, pw)
+	if error and finDeCadena(Tokens, pw):
+		return True
+	else:
+		return False
+
+#Se define un procedimiento recursivo indirecto a reutilizar con el argumento i
+def PNi(i, pw):
+	global error
+	j = 0
+	while (not error and ( j < len(P[i]))):
+		error = False
+		Procesar(P[i][j], pw)
+		j += 1
+
+def Procesar(produ, pw):
+	global error
+
+	#esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
+	for k in (0, len(produ) - 1):
+		if (produ[k] in Tokens):
+			if (Tokens[pw] == produ[k]):
+				pw += 1
+			else:
+				error = True
+				break
+		elif (produ[k] in VN):
+			i = VN.index(produ[k])
+			PNi(i, pw)
+			if error:
+				break
+
+def finDeCadena(Tokens, pw):
+	return (len(Tokens) - 1) == pw
+
+################################################################################
+#Asserts
+inputs = [
+			"int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}",
+			"int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}",
+			"a := 3 %~ ^^ ´ 2;",
+			"123abc",
+			"a := 3 ++++ 2;",
+			"a := 3 -+/** 2;",
+			"a := 3 % 2;",
+			"abc123",
+			"float holi(int a, int b){ while( x := 20) ;}",
+			"float gatito(a > b);"
+		]
+
+print(parser(lexer(inputs[8])))
+
+#for i in range(10):
+#	assert parser(lexer(inputs[i])) == True
+################################################################################
