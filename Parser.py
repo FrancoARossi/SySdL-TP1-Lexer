@@ -5,13 +5,13 @@ error = False
 def parser(TokenTypes):
 	# la variable t (indice del token apuntado) es global
 	pw = 0
-	PN1(pw)
+	PN0(pw)
 	if not error and finDeCadena(TokenTypes, pw):
 		return True
 	else:
 		return False
 
-def PN1(pw):
+def PNi(i, pw):
 	global error
 	#No me cierra esta condicion de salida... en el algoritmo pone j <= k donde k es el numero de producciones de Ni
 	# en este caso hay 1 sola produccion pero por como esta planteado el algoritmo cuando se llega al if por primera
@@ -21,9 +21,9 @@ def PN1(pw):
 	# el simbolo inicial)
 
 	j = 0
-	while (error and (j <= 0)):
+	while (not error and ( j < P[i].len()):
 		error = False
-		Procesar(produ, pw)
+		Procesar(P[i][j], pw)
 		j += 1
 
 # lo de la diapositiva no es un repetir hasta, es un while normal, ya que continua en el ciclo MIENTRAS
@@ -33,9 +33,17 @@ def PN1(pw):
 
 def Procesar(produ, pw):
 	global error
-	# j tiene que ir desde 0 hasta la cantidad de producciones del VN
+	# k tiene que ir desde 0 hasta la cantidad de producciones del VN
 	# pero como sabe cuantas tiene si en los PNs esta hardcodeado?
-	for j in (0, len(P[0])): #esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
+	for k in (0, len(produ)-1): #esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
+		if (produ[k] in loqueanalizoellexer):
+			if (loqueanlizoellexer[pw] == produ[k]):
+				pw += 1
+			else:
+				error = True
+				break
+		elif (produ[k] in VN):
+			PNi[]
 
 def finDeCadena(TokenTypes, pw):
 	#se compara TokenTypes(len(TokenTypes)) == lista[t]
@@ -47,7 +55,7 @@ VT = [
 	]
 
 VN = [
-		"Funcion", "ListaArgumentos", "Argumento", "Declaracion", "ListaIdent", "Sentencia", "SentFor", "Expr", "ExprOpt", "SentWhile", "SentIf", "SentenciaCompuesta", "ListaSentencia", "ValorR", "Mag", "Factor", "Termino", "AuxVR", "AuxM", "AuxT"
+		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<ExprOpt>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
 	]
 
 P = [ #producciones
@@ -72,6 +80,14 @@ P = [ #producciones
 		[ # <Declaracion>
 			[
 				"Reservada", "<ListaIdent>", "SemiColon"
+			]
+		],
+		[ # <ListaIdent>
+			[
+				"ID", "Comma", "<ListaIdent>"
+			],
+			[
+				"ID"
 			]
 		],
 		[ # <Sentencia>
