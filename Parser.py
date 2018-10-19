@@ -10,7 +10,7 @@ VN = [
 P = [ # Producciones
 		[ # <Funcion>
 			[
-				"ReservadaID", "ParOpen", "<ListaArgumentos>", "ParClose", "<SentenciaCompuesta>"
+				"Reservada", "ID", "ParOpen", "<ListaArgumentos>", "ParClose", "<SentenciaCompuesta>"
 			]
 		],
 		[ # <ListaArgumentos>
@@ -23,7 +23,7 @@ P = [ # Producciones
 		],
 		[ # <Argumento>
 			[
-				"ReservadaID"
+				"Reservada", "ID"
 			]
 		],
 		[ # <Declaracion>
@@ -188,9 +188,11 @@ def tratamientoTokens(Input):
 def parser(Input):
 	global Tokens
 	Tokens = tratamientoTokens(Input)
+	print(Tokens)
+	print("")
 	pw = 0
 	PNi(0, pw)
-	if error and finDeCadena(Tokens, pw):
+	if not(error) and finDeCadena(Tokens, pw):
 		return True
 	else:
 		return False
@@ -198,8 +200,10 @@ def parser(Input):
 #Se define un procedimiento recursivo indirecto a reutilizar con el argumento i
 def PNi(i, pw):
 	global error
+	backtrack_pivot = pw
 	j = 0
 	while (not error and ( j < len(P[i]))):
+		pw = backtrack_pivot
 		error = False
 		Procesar(P[i][j], pw)
 		j += 1
@@ -208,7 +212,7 @@ def Procesar(produ, pw):
 	global error
 
 	#esto solo lo resuelve para PN1, creo que deberiamos pasar como parametro que VN estamos evaluando
-	for k in (0, len(produ) - 1):
+	for k in range(0, len(produ)):
 		if (produ[k] in Tokens):
 			if (Tokens[pw] == produ[k]):
 				pw += 1
