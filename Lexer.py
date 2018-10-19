@@ -456,7 +456,7 @@ TT = [
 #print("")
 
 # Estas sources deben devolver un token de error
-print(lexer("a := 3 %~ ^^ ´ 2;"))
+# print(lexer("a := 3 %~ ^^ ´ 2;"))
 #print("")
 #print(lexer("abc123"))
 #print("")

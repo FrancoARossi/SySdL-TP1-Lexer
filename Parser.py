@@ -67,13 +67,13 @@ P = [ # Producciones
 				"Reservada", "ParOpen", "<Expr>", "Comma", "<Expr>", "Comma", "<Expr>", "ParClose", "<Sentencia>"
 			],
 			[
-				"Reservada","ParOpen","<Expr>", "Comma","Comma","<Expr>","ParClose", "<Sentencia>"
+				"Reservada", "ParOpen", "<Expr>", "Comma", "Comma", "<Expr>", "ParClose", "<Sentencia>"
 			],
 			[
-				"Reservada","ParOpen","<Expr>", "Comma","<Expr>","Comma","ParClose", "<Sentencia>"
+				"Reservada", "ParOpen", "<Expr>", "Comma", "<Expr>", "Comma", "ParClose", "<Sentencia>"
 			],
 			[
-				"Reservada","ParOpen","<Expr>", "Comma","Comma","ParClose", "<Sentencia>"
+				"Reservada", "ParOpen", "<Expr>", "Comma", "Comma"," ParClose", "<Sentencia>"
 			]
 		],
 		[ # <SentWhile>
@@ -187,7 +187,8 @@ def tratamientoTokens(Input):
 
 def parser(Input):
 	global Tokens
-	Tokens = tratamientoTokens(Input)
+	Tokens = lexer(Input)
+	Tokens = tratamientoTokens(Tokens)
 	print(Tokens)
 	print("")
 	pw = 0
@@ -232,22 +233,23 @@ def finDeCadena(Tokens, pw):
 	return (len(Tokens) - 1) == pw
 
 ################################################################################
-#Asserts
+# Asserts
 inputs = [
-			"int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}",
-			"int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}",
-			"a := 3 %~ ^^ ´ 2;",
-			"123abc",
-			"a := 3 ++++ 2;",
-			"a := 3 -+/** 2;",
-			"a := 3 % 2;",
-			"abc123",
-			"float holi(int a, int b){ while( x := 20) ;}",
-			"float gatito(a > b);"
+			["int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False],
+			["int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}", True],
+			["a := 3 %~ ^^ ´ 2;", True],
+			["123abc", True],
+			["a := 3 ++++ 2;", True],
+			["a := 3 -+/** 2;", True],
+			["a := 3 % 2;", True],
+			["abc123", True],
+			["float holi(int a, int b){ while( x := 20) ;}", True],
+			["float gatito(a > b);" True],
 		]
 
-print(parser(lexer(inputs[2])))
+test = 7
+assert parser(inputs[test][1])) == inputs[test][2]
 
-#for i in range(10):
-#	assert parser(lexer(inputs[i])) == True
+# for i in range(10):
+# 	assert parser(inputs[i][1]) == inputs[i][2]
 ################################################################################
