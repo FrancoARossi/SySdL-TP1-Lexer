@@ -205,6 +205,7 @@ def PNi(i, pw):
 	while (not error and ( j < len(P[i]))):
 		pw = backtrack_pivot
 		error = False
+		print(P[i][j])
 		Procesar(P[i][j], pw)
 		j += 1
 
@@ -216,10 +217,12 @@ def Procesar(produ, pw):
 		if (produ[k] in Tokens):
 			if (Tokens[pw] == produ[k]):
 				pw += 1
+				print("Token == produ[k]:", produ[k])
 			else:
 				error = True
 				break
 		elif (produ[k] in VN):
+			print("Token in VN:", produ[k])
 			i = VN.index(produ[k])
 			PNi(i, pw)
 			if error:
@@ -243,7 +246,7 @@ inputs = [
 			"float gatito(a > b);"
 		]
 
-print(parser(lexer(inputs[8])))
+print(parser(lexer(inputs[2])))
 
 #for i in range(10):
 #	assert parser(lexer(inputs[i])) == True
