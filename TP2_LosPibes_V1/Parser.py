@@ -190,6 +190,8 @@ def parser(Input):
 	global Tokens
 	Tokens = lexer(Input)
 	Tokens = tratamientoTokens(Tokens)
+	print(Tokens)
+	print("")
 	PNi(0)
 	if not(error) and finDeCadena(Tokens, pw):
 		return True
@@ -219,10 +221,13 @@ def Procesar(produ):
 			print(produ[k])
 			if (Tokens[pw] == produ[k]):
 				pw += 1
+				print("Token == produ[k]:", produ[k])
+				print("pw:", pw)
 			else:
 				error = True
 				break
 		elif (produ[k] in VN):
+			print("Token in VN:", produ[k])
 			i = VN.index(produ[k])
 			PNi(i)
 			if error:
@@ -233,21 +238,37 @@ def finDeCadena(Tokens, pw):
 
 ################################################################################
 # Asserts
- inputs = [
- 			("int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
- 			("int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}", True),
- 			("a := 3 %~ ^^ ´ 2;", True),
- 			("123abc", True),
- 			("a := 3 ++++ 2;", True),
- 			("a := 3 -+/** 2;", True),
- 			("a := 3 % 2;", True),
- 			("abc123", True),
- 			("float holi(int a, int b){ while( x := 20) ;}", True),
- 			("float gatito(a > b);", True),
- 		]
+# inputs = [
+# 			["int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False],
+# 			["int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}", True],
+# 			["a := 3 %~ ^^ ´ 2;", True],
+# 			["123abc", True],
+# 			["a := 3 ++++ 2;", True],
+# 			["a := 3 -+/** 2;", True],
+# 			["a := 3 % 2;", True],
+# 			["abc123", True],
+# 			["float holi(int a, int b){ while( x := 20) ;}", True],
+# 			["float gatito(a > b);" True],
+# 		]
 
-test = 7
+inputs = [
+ 		"int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}",
+ 		"int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}",
+ 		"a := 3 %~ ^^ ´ 2;",
+ 		"123abc",
+		"a := 3 ++++ 2;",
+ 		"a := 3 -+/** 2;",
+ 		"a := 3 % 2;",
+ 		"abc123",
+ 		"float holi(int a, int b){ while( x := 20) ;}",
+ 		"float gatito(a > b);"
+	]
 
-for i in range(10):
-	assert parser(inputs[i][1]) == inputs[i][2]
+print(parser(inputs[8]))
+
+# test = 7
+# assert parser(inputs[test][0])) == inputs[test][1]
+
+# for i in range(10):
+# 	assert parser(inputs[i][1]) == inputs[i][2]
 ################################################################################
