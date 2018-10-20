@@ -2,7 +2,7 @@ from Lexer import lexer
 
 error = False
 Tokens = []
-pw = 0 # ESTOY PROBANDO CON pw GLOBAL
+pw = 0
 
 VN = [
 		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
@@ -205,10 +205,8 @@ def PNi(i):
 	while (not error and ( j < len(P[i]))):
 		pw = backtrack_pivot
 		error = False
-		print("Produccion:", P[i][j])
 		Procesar(P[i][j])
 		j += 1
-	print("No hay mas derivaciones para este No Terminal")
 
 def Procesar(produ):
 	global error
@@ -216,7 +214,6 @@ def Procesar(produ):
 
 	for k in range(0, len(produ)):
 		if (produ[k] in Tokens):
-			print(produ[k])
 			if (Tokens[pw] == produ[k]):
 				pw += 1
 			else:
