@@ -21,8 +21,6 @@ VN = [
 		"<AuxT>",
 		"<Factor>"
 	]
-		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
-	]
 
 P = [ # Producciones
 		[ # <Funcion>
@@ -211,9 +209,8 @@ def parser(input):
 		return True
 	else:
 		return False
-
-#Se define un procedimiento recursivo indirecto a reutilizar con el argumento i
-def PNi(i):
+	
+	def PNi(i):
 	global error
 	global pw
 	backtrack_pivot = pw
@@ -224,22 +221,25 @@ def PNi(i):
 		Procesar(P[i][j])
 		j += 1
 
-def Procesar(produ):
-	global error
-	global pw
+	def Procesar(produ):
+		global error
+		global pw
 
-	for simbolo in produ:
-		if simbolo in tokens:
-			if (tokens[pw] == produ[k]):
-				pw += 1
-			else:
-				error = True
-				break
-		elif (produ[k] in VN):
-			i = VN.index(produ[k])
-			PNi(i)
-			if error:
-				break
+		for simbolo in produ:
+			if simbolo in tokens:
+				if (tokens[pw] == produ[k]):
+					pw += 1
+				else:
+					error = True
+					break
+			elif (produ[k] in VN):
+				i = VN.index(produ[k])
+				PNi(i)
+				if error:
+					break
+
+#Se define un procedimiento recursivo indirecto a reutilizar con el argumento i
+
 
 def finDeCadena(Tokens, pw):
 	return (len(Tokens) - 1) == pw
