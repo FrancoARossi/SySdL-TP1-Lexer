@@ -212,7 +212,6 @@ def parser(input):
 		return False
 
 	def PNi(i):
-<<<<<<< Updated upstream
 		backtrack_pivot = pw
 		# j = 0
 		# while not error and j < len(P[i]):
@@ -229,20 +228,6 @@ def parser(input):
 
 	def Procesar(produ):
 		for simbolo in produ:
-=======
-		global error
-		global pw
-		backtrack_pivot = pw
-		j = 0
-		while (not error and ( j < len(P[i]))):
-			pw = backtrack_pivot
-			error = False
-			Procesar(P[i][j])
-			j += 1
-
-	def Procesar(partederecha):
-		for simbolo in partederecha:
->>>>>>> Stashed changes
 			if simbolo in tokens:
 				if (tokens[pw] == simbolo):
 					pw += 1
