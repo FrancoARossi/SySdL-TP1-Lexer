@@ -201,9 +201,10 @@ def getTokenTypes(tokens):
 	return tokentypes
 
 def parser(input):
-	global Tokens
 	tokens = lexer(input)
 	tokens = getTokenTypes(tokens)
+	pw = 0
+	error = False
 	PNi(0)
 	if not error and finDeCadena(Tokens, pw):
 		return True
@@ -211,6 +212,7 @@ def parser(input):
 		return False
 
 	def PNi(i):
+<<<<<<< Updated upstream
 		backtrack_pivot = pw
 		# j = 0
 		# while not error and j < len(P[i]):
@@ -227,41 +229,50 @@ def parser(input):
 
 	def Procesar(produ):
 		for simbolo in produ:
+=======
+		global error
+		global pw
+		backtrack_pivot = pw
+		j = 0
+		while (not error and ( j < len(P[i]))):
+			pw = backtrack_pivot
+			error = False
+			Procesar(P[i][j])
+			j += 1
+
+	def Procesar(partederecha):
+		for simbolo in partederecha:
+>>>>>>> Stashed changes
 			if simbolo in tokens:
-				if (tokens[pw] == produ[k]):
+				if (tokens[pw] == simbolo):
 					pw += 1
 				else:
 					error = True
 					break
-			elif (produ[k] in VN):
-				i = VN.index(produ[k])
+			elif (simbolo in VN):
+				i = VN.index(simbolo)
 				PNi(i)
 				if error:
 					break
+	
+	def finDeCadena(Tokens, pw):
+		return (len(Tokens) - 1) == pw
 
-#Se define un procedimiento recursivo indirecto a reutilizar con el argumento i
-
-
-def finDeCadena(Tokens, pw):
-	return (len(Tokens) - 1) == pw
 
 ################################################################################
 # Asserts
- inputs = [
- 			("int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
- 			("int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}", True),
- 			("a := 3 %~ ^^ ´ 2;", True),
- 			("123abc", True),
- 			("a := 3 ++++ 2;", True),
- 			("a := 3 -+/** 2;", True),
- 			("a := 3 % 2;", True),
- 			("abc123", True),
- 			("float holi(int a, int b){ while( x := 20) ;}", True),
- 			("float gatito(a > b);", True),
- 		]
+inputs = [
+			("int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}", True),
+			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
+			("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
+			("int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
+			("float a (:= 3 %~ ^^ ´ 2;)", False),
+			("123abc", False),
+			("a := 3 ++++ 2;", False),
+			("float gatito(a > b);", False),
+		]
 
-test = 7
 
-for i in range(10):
-	assert parser(inputs[i][1]) == inputs[i][2]
+for (input, output) in inputs:
+	assert parser(input) == output
 ################################################################################
