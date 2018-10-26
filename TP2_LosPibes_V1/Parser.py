@@ -1,26 +1,10 @@
 from Lexer import lexer
 
+error = False
+Tokens = []
+pw = 0
+
 VN = [
-		"<Funcion>",
-		"<ListaArgumentos>",
-		"<Argumento>",
-		"<Declaracion>",
-		"<ListaIdent>",
-		"<Sentencia>",
-		"<SentFor>",
-		"<SentWhile>",
-		"<SentIf>",
-		"<SentenciaCompuesta>",
-		"<ListaSentencia>",
-		"<Expr>",
-		"<ValorR>",
-		"<AuxVR>",
-		"<Mag>",
-		"<AuxM>",
-		"<Termino>",
-		"<AuxT>",
-		"<Factor>"
-	]
 		"<Funcion>", "<ListaArgumentos>", "<Argumento>", "<Declaracion>", "<ListaIdent>", "<Sentencia>", "<SentFor>", "<SentWhile>", "<SentIf>", "<SentenciaCompuesta>", "<ListaSentencia>", "<Expr>", "<ValorR>", "<AuxVR>", "<Mag>", "<AuxM>", "<Termino>", "<AuxT>", "<Factor>"
 	]
 
@@ -195,19 +179,19 @@ P = [ # Producciones
 	]
 
 
-#Captura solo el token de la salida del Lexer e ignora el lexeme
-def getTokenTypes(tokens):
-	tokentypes = []
-	for (token, lexeme) in tokens:
-		tokentypes.append(token)
-	return tokentypes
+#Captura solo el token de la salida del Lexer e ignora el lexema
+def tratamientoTokens(Input):
+	tokens = []
+	for (a,b) in Input:
+		tokens.append(a)
+	return tokens
 
-def parser(input):
+def parser(Input):
 	global Tokens
-	tokens = lexer(input)
-	tokens = getTokenTypes(tokens)
+	Tokens = lexer(Input)
+	Tokens = tratamientoTokens(Tokens)
 	PNi(0)
-	if not error and finDeCadena(Tokens, pw):
+	if not(error) and finDeCadena(Tokens, pw):
 		return True
 	else:
 		return False
@@ -228,9 +212,9 @@ def Procesar(produ):
 	global error
 	global pw
 
-	for simbolo in produ:
-		if simbolo in tokens:
-			if (tokens[pw] == produ[k]):
+	for k in range(0, len(produ)):
+		if (produ[k] in Tokens):
+			if (Tokens[pw] == produ[k]):
 				pw += 1
 			else:
 				error = True
