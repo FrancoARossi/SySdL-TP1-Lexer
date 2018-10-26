@@ -209,22 +209,23 @@ def parser(input):
 		return True
 	else:
 		return False
-	
+
 	def PNi(i):
-	global error
-	global pw
-	backtrack_pivot = pw
-	j = 0
-	while (not error and ( j < len(P[i]))):
-		pw = backtrack_pivot
-		error = False
-		Procesar(P[i][j])
-		j += 1
+		backtrack_pivot = pw
+		# j = 0
+		# while not error and j < len(P[i]):
+		# 	pw = backtrack_pivot
+		# 	error = False
+		# 	Procesar(P[i][j])
+		# 	j += 1
+		for parteDerecha in P[i]:
+			pw = backtrack_pivot
+        	error = False
+        	Procesar(parteDerecha)
+        	if error:
+				break
 
 	def Procesar(produ):
-		global error
-		global pw
-
 		for simbolo in produ:
 			if simbolo in tokens:
 				if (tokens[pw] == produ[k]):
