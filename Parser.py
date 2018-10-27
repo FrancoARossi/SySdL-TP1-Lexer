@@ -202,48 +202,47 @@ def getTokenTypes(tokens):
 
 def parser(input):
 
-	def Procesar(produ):
-		for simbolo in produ:
-			if simbolo in tokens:
-				if (tokens[pw] == simbolo):
-					pw += 1
+	def Procesar(parte_derecha):
+		for simbolo in parte_derecha:
+			print("simbolo", simbolo)
+			if simbolo in variables["tokens"]:
+				if (variables["tokens"][variables["pw"]] == simbolo):
+					variables["pw"] += 1
 				else:
-					error = True
+					variables["error"] = True
 					break
 			elif (simbolo in VN):
 				i = VN.index(simbolo)
+				print("pw", variables["pw"])
 				PNi(i)
-				if error:
+				if variables["error"]:
 					break
 
 	def PNi(i):
-		backtrack_pivot = pw
-		# j = 0
-		# while not error and j < len(P[i]):
-		# 	pw = backtrack_pivot
-		# 	error = False
-		# 	Procesar(P[i][j])
-		# 	j += 1
-		for parteDerecha in P[i]:
-			pw = backtrack_pivot
-			error = False
-			Procesar(parteDerecha)
-			if error:
+		variables["backtrack_pivot"] = variables["pw"]
+		for parte_derecha in P[i]:
+			print("pw", variables["pw"]) #TODO remover
+			variables["pw"] = variables["backtrack_pivot"]
+			print("backtrack_pivot", variables["backtrack_pivot"])
+			print("pw", variables["pw"]) #TODO remover
+			variables["error"] = False
+			Procesar(parte_derecha)
+			if variables["error"]:
 				break
 	
-	def finDeCadena(tokens):
-		return (len(tokens) - 1) == pw
+	def finDeCadena():
+		return (len(variables["tokens"]) - 1) == variables["pw"]
 	
 	tokens = lexer(input)
 	tokens = getTokenTypes(tokens)
-	#TODO: Implementando diccionario para globalizar variables
 	variables = {
 		"pw" : 0,
 		"error" : False,
-
+		"backtrack_pivot" : 0,
+		"tokens" : tokens
 	}
 	PNi(0)
-	if not error and finDeCadena(tokens):
+	if not variables["error"] and finDeCadena():
 		return True
 	else:
 		return False
@@ -251,7 +250,7 @@ def parser(input):
 
 ################################################################################
 # Asserts
-inputs = [
+tests = [
 			("int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}", True),
 			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
 			("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
@@ -262,8 +261,8 @@ inputs = [
 			("float gatito(a > b);", False),
 		]
 
-assert parser(inputs[0][0]) == inputs[0][1]
+assert parser(tests[0][0]) == tests[0][1]
 
-# for (input, output) in inputs:
+# for (input, output) in tests:
 # 	assert parser(input) == output
 ################################################################################
