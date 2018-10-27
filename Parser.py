@@ -1,6 +1,6 @@
 from Lexer import lexer
 
-VN = [
+VN = [ # No terminales
 		"<Funcion>",
 		"<ListaArgumentos>",
 		"<Argumento>",
@@ -193,15 +193,17 @@ P = [ # Producciones
 	]
 
 
-#Captura solo el token de la salida del Lexer e ignora el lexeme
+# Captura solo el token de la salida del Lexer e ignora el lexeme
 def getTokenTypes(tokens):
 	tokentypes = []
 	for (token, lexeme) in tokens:
 		tokentypes.append(token)
 	return tokentypes
 
+# Funcion principal
 def parser(input):
 
+	# Procesamiento de Producciones
 	def Procesar(parte_derecha):
 		for simbolo in parte_derecha:
 			print("simbolo", simbolo)
@@ -218,13 +220,14 @@ def parser(input):
 				if variables["error"]:
 					break
 
+	# Funcion para cada No terminal
 	def PNi(i):
 		variables["backtrack_pivot"] = variables["pw"]
 		for parte_derecha in P[i]:
-			print("pw", variables["pw"]) #TODO remover
+			print("pw", variables["pw"])
 			variables["pw"] = variables["backtrack_pivot"]
 			print("backtrack_pivot", variables["backtrack_pivot"])
-			print("pw", variables["pw"]) #TODO remover
+			print("pw", variables["pw"])
 			variables["error"] = False
 			Procesar(parte_derecha)
 			if variables["error"]:
