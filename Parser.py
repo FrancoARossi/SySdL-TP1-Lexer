@@ -205,25 +205,33 @@ def parser(input):
 
 	# Procesamiento de Producciones
 	def Procesar(parte_derecha):
+		print('Procesando ',parte_derecha)
 		for simbolo in parte_derecha:
-			print("simbolo", simbolo)
+			print("Analizando simbolo", simbolo)
 			if simbolo in variables["tokens"]:
+				print(simbolo,' esta en los tokens')
 				if (variables["tokens"][variables["pw"]] == simbolo):
+					print('Y coincidio')
 					variables["pw"] += 1
 				else:
+					print('Pero no coincidio, error = False')
 					variables["error"] = True
 					break
 			elif (simbolo in VN):
+				print(simbolo,' es un VN')
 				i = VN.index(simbolo)
 				print("pw", variables["pw"])
 				PNi(i)
 				if variables["error"]:
+					print('Salio de procesar')
 					break
 
 	# Funcion para cada No terminal
 	def PNi(i):
+		print('Entro en PN',i,', osea, el PN de ',VN[i])
 		variables["backtrack_pivot"] = variables["pw"]
 		for parte_derecha in P[i]:
+			print('Analizando ',parte_derecha,' de ',VN[i])
 			print("pw", variables["pw"])
 			variables["pw"] = variables["backtrack_pivot"]
 			print("backtrack_pivot", variables["backtrack_pivot"])
@@ -231,6 +239,7 @@ def parser(input):
 			variables["error"] = False
 			Procesar(parte_derecha)
 			if variables["error"]:
+				print('Salio de PN',i)
 				break
 
 	def finDeCadena():
