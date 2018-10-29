@@ -232,12 +232,13 @@ def parser(input):
 			Procesar(parte_derecha)
 			if variables["error"]:
 				break
-	
+
 	def finDeCadena():
 		return (len(variables["tokens"]) - 1) == variables["pw"]
-	
+
 	tokens = lexer(input)
 	tokens = getTokenTypes(tokens)
+	print(tokens)
 	variables = {
 		"pw" : 0,
 		"error" : False,
@@ -254,7 +255,7 @@ def parser(input):
 ################################################################################
 # Asserts
 tests = [
-			("int miFuncion(float a,int b){ for(c:=9, x := y) a := 2+2;}", True),
+			("int miFuncion(float a,int b){ for(c:=9, x := y,) a := 2+2;}", True),
 			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
 			("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
 			("int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
