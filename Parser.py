@@ -213,12 +213,13 @@ def parser(input):
 				if (variables["tokens"][variables["pw"]] == simbolo):
 					print('Y coincidio')
 					variables["pw"] += 1
+					print('procesar_for_pw: ',variables["pw"])
 				else:
-					print('Pero no coincidio, error = False')
+					print('Pero no coincidio con',variables["tokens"][variables["pw"]])
 					variables["error"] = True
 					break
 			elif (simbolo in VN):
-				print(simbolo,' es un VN')
+				print('VN:',simbolo)
 				i = VN.index(simbolo)
 				print("pw", variables["pw"])
 				PNi(i)
@@ -229,17 +230,19 @@ def parser(input):
 	# Funcion para cada No terminal
 	def PNi(i):
 		print('Entro en PN',i,', osea, el PN de ',VN[i])
-		variables["backtrack_pivot"] = variables["pw"]
+		backtrack_pivot = variables["pw"]
 		for parte_derecha in P[i]:
 			print('Analizando ',parte_derecha,' de ',VN[i])
-			print("pw", variables["pw"])
-			variables["pw"] = variables["backtrack_pivot"]
-			print("backtrack_pivot", variables["backtrack_pivot"])
-			print("pw", variables["pw"])
+			print("pw:", variables["pw"])
+			# variables["pw"] = backtrack_pivot
+			puntero_original = variables['pw']
+			print("backtrack_pivot", backtrack_pivot)
+			print("pw:", variables["pw"],'--i:',i)
 			variables["error"] = False
 			Procesar(parte_derecha)
 			if variables["error"]:
-				print('Salio de PN',i)
+				variables['pw'] = backtrack_pivot
+			else:
 				break
 
 	def finDeCadena():
@@ -251,7 +254,7 @@ def parser(input):
 	variables = {
 		"pw" : 0,
 		"error" : False,
-		"backtrack_pivot" : 0,
+		# "backtrack_pivot" : 0,
 		"tokens" : tokens
 	}
 	PNi(0)
