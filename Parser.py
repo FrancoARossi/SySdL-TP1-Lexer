@@ -234,8 +234,8 @@ def parser(input):
 		for parte_derecha in P[i]:
 			print('Analizando ',parte_derecha,' de ',VN[i])
 			print("pw:", variables["pw"])
-			# variables["pw"] = backtrack_pivot
-			puntero_original = variables['pw']
+			variables["pw"] = backtrack_pivot
+			# puntero_original = variables['pw']
 			print("backtrack_pivot", backtrack_pivot)
 			print("pw:", variables["pw"],'--i:',i)
 			variables["error"] = False
