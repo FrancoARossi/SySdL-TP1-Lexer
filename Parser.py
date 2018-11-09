@@ -1,6 +1,6 @@
 from Lexer import lexer
 
-VN = [ # No terminales
+no_terminales = [ # No terminales
 		"<Funcion>",
 		"<ListaArgumentos>",
 		"<Argumento>",
@@ -22,7 +22,7 @@ VN = [ # No terminales
 		"<Factor>"
 	]
 
-P = [ # Producciones
+producciones = [ # Producciones
 		[ # <Funcion>
 			[
 				"Reservada", "ID", "ParOpen", "<ListaArgumentos>", "ParClose", "<SentenciaCompuesta>"
@@ -198,46 +198,51 @@ def getTokenTypes(tokens):
 	tokentypes = []
 	for (token, lexeme) in tokens:
 		tokentypes.append(token)
-	return tokentypes
+	return tokentypes.append("#")
 
 # Funcion principal
 def parser(input):
+
+	def esTerminal(simbolo):
+		return simbolo in variables["tokens"]
+
+	def esNoTerminal(simbolo):
+		return simbolo in no_terminales
 
 	# Procesamiento de Producciones
 	def Procesar(parte_derecha):
 		print('Procesando ',parte_derecha)
 		for simbolo in parte_derecha:
 			print("Analizando simbolo", simbolo)
-			if simbolo in variables["tokens"]:
+			if esTerminal(simbolo):
 				print(simbolo,' esta en los tokens')
-				if (variables["tokens"][variables["pw"]] == simbolo):
+				if (variables["token_apuntado"] == simbolo):
 					print('Y coincidio')
 					variables["pw"] += 1
 					print('procesar_for_pw: ',variables["pw"])
 				else:
-					print('Pero no coincidio con',variables["tokens"][variables["pw"]])
+					print('Pero no coincidio con',variables["token_apuntado"])
 					variables["error"] = True
 					break
-			elif (simbolo in VN):
-				print('VN:',simbolo)
-				i = VN.index(simbolo)
+			elif esNoTerminal(simbolo):
+				print('no_terminales:',simbolo)
+				indice_no_terminal = no_terminales.index(simbolo)
 				print("pw", variables["pw"])
-				PNi(i)
+				PNi(indice_no_terminal)
 				if variables["error"]:
 					print('Salio de procesar')
 					break
 
 	# Funcion para cada No terminal
-	def PNi(i):
-		print('Entro en PN',i,', osea, el PN de ',VN[i])
+	def PNi(indice_no_terminal):
+		print('Entro en PN',indice_no_terminal,', osea, el PN de ',no_terminales[indice_no_terminal])
 		backtrack_pivot = variables["pw"]
-		for parte_derecha in P[i]:
-			print('Analizando ',parte_derecha,' de ',VN[i])
+		for parte_derecha in producciones[indice_no_terminal]:
+			print('Analizando ',parte_derecha,' de ',no_terminales[indice_no_terminal])
 			print("pw:", variables["pw"])
 			variables["pw"] = backtrack_pivot
-			# puntero_original = variables['pw']
 			print("backtrack_pivot", backtrack_pivot)
-			print("pw:", variables["pw"],'--i:',i)
+			print("pw:", variables["pw"],'--i:',indice_no_terminal)
 			variables["error"] = False
 			Procesar(parte_derecha)
 			if variables["error"]:
@@ -245,7 +250,7 @@ def parser(input):
 			else:
 				break
 
-	def finDeCadena():
+	def esFinDeCadena():
 		return (len(variables["tokens"]) - 1) == variables["pw"]
 
 	tokens = lexer(input)
@@ -255,10 +260,11 @@ def parser(input):
 		"pw" : 0,
 		"error" : False,
 		# "backtrack_pivot" : 0,
-		"tokens" : tokens
+		"tokens" : tokens,
+		"token_apuntado" : variables["tokens"][variables["pw"]]
 	}
 	PNi(0)
-	if not variables["error"] and finDeCadena():
+	if not variables["error"] and esFinDeCadena():
 		return True
 	else:
 		return False
