@@ -198,7 +198,8 @@ def getTokenTypes(tokens):
 	tokentypes = []
 	for (token, lexeme) in tokens:
 		tokentypes.append(token)
-	return tokentypes.append("#")
+	tokentypes.append("#")
+	return tokentypes
 
 # Funcion principal
 def parser(input):
