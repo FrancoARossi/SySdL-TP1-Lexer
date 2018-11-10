@@ -211,38 +211,24 @@ def parser(input):
 
 	# Procesamiento de Producciones
 	def Procesar(parte_derecha):
-		print('Procesando ',parte_derecha)
+		backtrack_pivot = variables["pw"]
 		for simbolo in parte_derecha:
-			print("Analizando simbolo", simbolo)
+			#token_apuntado = variables["tokens"][variables["pw"]]
 			if esTerminal(simbolo):
-				print(simbolo,' esta en los tokens')
-				if (variables["token_apuntado"] == simbolo):
-					print('Y coincidio')
+				if (variables["tokens"][variables["pw"]] == simbolo):
 					variables["pw"] += 1
-					print('procesar_for_pw: ',variables["pw"])
 				else:
-					print('Pero no coincidio con',variables["token_apuntado"])
-					variables["error"] = True
+					variables["pw"] = backtrack_pivot
 					break
 			elif esNoTerminal(simbolo):
-				print('no_terminales:',simbolo)
 				indice_no_terminal = no_terminales.index(simbolo)
-				print("pw", variables["pw"])
 				PNi(indice_no_terminal)
-				if variables["error"]:
-					print('Salio de procesar')
-					break
+			elif variables["error"]:
+				break
 
 	# Funcion para cada No terminal
 	def PNi(indice_no_terminal):
-		print('Entro en PN',indice_no_terminal,', osea, el PN de ',no_terminales[indice_no_terminal])
-		backtrack_pivot = variables["pw"]
 		for parte_derecha in producciones[indice_no_terminal]:
-			print('Analizando ',parte_derecha,' de ',no_terminales[indice_no_terminal])
-			print("pw:", variables["pw"])
-			variables["pw"] = backtrack_pivot
-			print("backtrack_pivot", backtrack_pivot)
-			print("pw:", variables["pw"],'--i:',indice_no_terminal)
 			variables["error"] = False
 			Procesar(parte_derecha)
 			if variables["error"]:
@@ -254,15 +240,15 @@ def parser(input):
 		return (len(variables["tokens"]) - 1) == variables["pw"]
 
 	tokens = lexer(input)
-	tokens = getTokenTypes(tokens)
-	print(tokens)
+	#import pdb; pdb.set_trace()print(tokens)
 	variables = {
 		"pw" : 0,
 		"error" : False,
 		# "backtrack_pivot" : 0,
-		"tokens" : tokens,
-		"token_apuntado" : variables["tokens"][variables["pw"]]
+		"tokens" : tokens
 	}
+	print("1",getTokenTypes(tokens))
+	print(variables["tokens"])
 	PNi(0)
 	if not variables["error"] and esFinDeCadena():
 		return True
