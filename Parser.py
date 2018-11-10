@@ -1,5 +1,19 @@
 from Lexer import lexer
 
+terminales = [#terminales
+		'ParOpen',
+		'ParClose',
+		'BraOpen',
+		'BraClose',
+		'OpMat',
+		'ID',
+		'Num',
+		'Reservada',
+		'Comma',
+		'SemiColon',
+		'OpRel'
+	  ]
+
 no_terminales = [ # No terminales
 		"<Funcion>",
 		"<ListaArgumentos>",
@@ -198,13 +212,14 @@ def getTokenTypes(tokens):
 	tokentypes = []
 	for (token, lexeme) in tokens:
 		tokentypes.append(token)
-	return tokentypes.append("#")
+	tokentypes.append("#")
+	return tokentypes
 
 # Funcion principal
 def parser(input):
 
 	def esTerminal(simbolo):
-		return simbolo in variables["tokens"]
+		return simbolo in terminales
 
 	def esNoTerminal(simbolo):
 		return simbolo in no_terminales
@@ -213,46 +228,43 @@ def parser(input):
 	def Procesar(parte_derecha):
 		backtrack_pivot = variables["pw"]
 		for simbolo in parte_derecha:
-			#token_apuntado = variables["tokens"][variables["pw"]]
 			if esTerminal(simbolo):
 				if (variables["tokens"][variables["pw"]] == simbolo):
 					variables["pw"] += 1
 				else:
 					variables["pw"] = backtrack_pivot
 					break
-			elif esNoTerminal(simbolo):
+			if esNoTerminal(simbolo):
 				indice_no_terminal = no_terminales.index(simbolo)
 				PNi(indice_no_terminal)
-			elif variables["error"]:
+			if variables["error"]:
 				break
 
 	# Funcion para cada No terminal
 	def PNi(indice_no_terminal):
+		variables["error"] = False
 		for parte_derecha in producciones[indice_no_terminal]:
 			variables["error"] = False
 			Procesar(parte_derecha)
 			if variables["error"]:
-				variables['pw'] = backtrack_pivot
-			else:
 				break
 
 	def esFinDeCadena():
 		return (len(variables["tokens"]) - 1) == variables["pw"]
 
 	tokens = lexer(input)
-	#import pdb; pdb.set_trace()print(tokens)
 	variables = {
 		"pw" : 0,
 		"error" : False,
-		# "backtrack_pivot" : 0,
 		"tokens" : tokens
 	}
-	print("1",getTokenTypes(tokens))
-	print(variables["tokens"])
+	variables["tokens"] = getTokenTypes(tokens)
 	PNi(0)
 	if not variables["error"] and esFinDeCadena():
+		print('true')
 		return True
 	else:
+		print('false')
 		return False
 
 
@@ -262,15 +274,16 @@ tests = [
 			("int miFuncion(float a,int b){ for(c:=9, x := y,) a := 2+2;}", True),
 			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
 			("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
-			("int miFuncion(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
-			("float a (:= 3 %~ ^^ ´ 2;)", False),
+			("float testing(int x){ if(x:=9, x := y,) a := 2+2; else (z := 33) z := 11;}", True),
+			("int hola(float a){ perro := 8;}", True),
+			("int estonoanda(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
+			("float a (:= 3  2;)", False),
 			("123abc", False),
 			("a := 3 ++++ 2;", False),
-			("float gatito(a > b);", False),
+			("float gatito(a > b);", False)
+
 		]
 
-assert parser(tests[0][0]) == tests[0][1]
-
-# for (input, output) in tests:
-# 	assert parser(input) == output
+for (input, output) in tests:
+	assert parser(input) == output
 ################################################################################
