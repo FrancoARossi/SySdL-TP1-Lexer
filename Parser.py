@@ -232,14 +232,13 @@ def parser(input):
 			if esTerminal(simbolo):
 				if simbolo_apuntado == simbolo:
 					variables["pw"] += 1
+					variables["producciones_utilizadas"].append(simbolo)
 				else:
 					variables["error"] = True
 					break
 			if esNoTerminal(simbolo):
 				indice_no_terminal = no_terminales.index(simbolo)
 				PNi(indice_no_terminal)
-			if variables["error"]:
-				break
 
 	# Funcion para cada No terminal
 	def PNi(indice_no_terminal):
@@ -262,7 +261,8 @@ def parser(input):
 	variables = {
 		"pw" : 0,
 		"error" : False,
-		"tokens" : tokens
+		"tokens" : tokens,
+		"producciones_utilizadas" : []
 	}
 	PNi(0)
 	if not variables["error"] and esFinDeCadena():
