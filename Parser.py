@@ -266,6 +266,7 @@ def parser(input):
 			print('La cadena:')
 			print('	', input)
 			print('es ACEPTADA con:')
+			print()
 			for (VN, produ) in variables["producciones_utilizadas"]:
 				print(VN, '->', produ)
 			print()
@@ -277,7 +278,7 @@ def parser(input):
 
 
 	tokens = lexer(input)
-	print(tokens)
+	# print(tokens)
 	tokens.append(("#", "FinDeCadena"))
 	variables = {
 		"pw" : 0,
