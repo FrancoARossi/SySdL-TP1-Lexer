@@ -208,15 +208,18 @@ producciones = [ # Producciones
 
 
 # Captura solo el token de la salida del Lexer e ignora el lexeme
-def getTokenTypes(tokens):
-	tokentypes = []
-	for (token, lexeme) in tokens:
-		tokentypes.append(token)
-	tokentypes.append("#")
-	return tokentypes
+# def getTokenTypes(tokens):
+# 	tokentypes = []
+# 	for (token, lexeme) in tokens:
+# 		tokentypes.append(token)
+# 	tokentypes.append("#")
+# 	return tokentypes
 
 # Funcion principal
 def parser(input):
+
+	def getCurrentToken():
+		return variables["tokens"][variables["pw"]][0]
 
 	def esTerminal(simbolo):
 		return simbolo in terminales
@@ -228,11 +231,11 @@ def parser(input):
 	def Procesar(parte_derecha):
 		backtrack_pivot = variables["pw"]
 		for simbolo in parte_derecha:
-			simbolo_apuntado = variables["tokens"][variables["pw"]][0]
+			simbolo_apuntado = getCurrentToken()
 			if esTerminal(simbolo):
 				if simbolo_apuntado == simbolo:
 					variables["pw"] += 1
-					variables["producciones_utilizadas"].append(simbolo)
+					# variables["producciones_utilizadas"].append(simbolo)
 				else:
 					variables["error"] = True
 					break
@@ -251,12 +254,30 @@ def parser(input):
 				variables["pw"] = backtrack_pivot
 				variables["error"] = False
 
+		if not variables["error"]:
+			variables["producciones_utilizadas"].append((no_terminales[indice_no_terminal], parte_derecha))
+
 	def esFinDeCadena():
-		simbolo_apuntado = variables["tokens"][variables["pw"]][0]
+		simbolo_apuntado = getCurrentToken()
 		return simbolo_apuntado == "#"
+
+	def printOutput(aceptada):
+		if aceptada:
+			print('La cadena:')
+			print('	', input)
+			print('es ACEPTADA con:')
+			for (VN, produ) in variables["producciones_utilizadas"]:
+				print(VN, '->', produ)
+			print()
+		else:
+			print('La cadena:')
+			print('	', input)
+			print('NO es ACEPTADA')
+			print()
 
 
 	tokens = lexer(input)
+	print(tokens)
 	tokens.append(("#", "FinDeCadena"))
 	variables = {
 		"pw" : 0,
@@ -266,32 +287,26 @@ def parser(input):
 	}
 	PNi(0)
 	if not variables["error"] and esFinDeCadena():
-		print('La cadena:')
-		print('	', input)
-		print('es ACEPTADA')
-		print()
+		printOutput(True)
 		return True
 	else:
-		print('La cadena:')
-		print('	', input)
-		print('NO es ACEPTADA')
-		print()
+		printOutput(False)
 		return False
 
 
 ################################################################################
 # Asserts
 tests = [
-			("int miFuncion(float a,int b){ for(c:=9, x := y,) a := 2+2;}", True),
-			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
-			("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
-			("float testing(int x){ if(x:=9, x := y,) a := 2+2; else (z := 33) z := 11;}", True),
+			# ("int miFuncion(float a,int b){ for(c:=9, x := y,) a := 2+2;}", True),
+			# ("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
+			# ("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
+			# ("float testing(int x){ if(x:=9, x := y,) a := 2+2; else (z := 33) z := 11;}", True),
 			("int hola(float a){ perro := 8;}", True),
-			("int estonoanda(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
-			("float a (:= 3  2;)", False),
-			("123abc", False),
-			("a := 3 ++++ 2;", False),
-			("float gatito(a > b);", False)
+			# ("int estonoanda(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
+			# ("float a (:= 3  2;)", False),
+			# ("123abc", False),
+			# ("a := 3 ++++ 2;", False),
+			# ("float gatito(a > b);", False)
 		]
 
 for (input, output) in tests:
