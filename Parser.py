@@ -218,6 +218,11 @@ producciones = [ # Producciones
 # Funcion principal
 def parser(input):
 
+	def getTokenTypes():
+		tokens = lexer(input)
+		tokens.append(("#", "FinDeCadena"))
+		return tokens
+
 	def getCurrentToken():
 		return variables["tokens"][variables["pw"]][0]
 
@@ -229,7 +234,6 @@ def parser(input):
 
 	# Procesamiento de Producciones
 	def Procesar(parte_derecha):
-		backtrack_pivot = variables["pw"]
 		for simbolo in parte_derecha:
 			simbolo_apuntado = getCurrentToken()
 			if esTerminal(simbolo):
@@ -242,6 +246,7 @@ def parser(input):
 			if esNoTerminal(simbolo):
 				indice_no_terminal = no_terminales.index(simbolo)
 				PNi(indice_no_terminal)
+				#variables["producciones_utilizadas"].append((no_terminales[indice_no_terminal], parte_derecha))
 
 	# Funcion para cada No terminal
 	def PNi(indice_no_terminal):
@@ -254,8 +259,8 @@ def parser(input):
 				variables["pw"] = backtrack_pivot
 				variables["error"] = False
 
-		if not variables["error"]:
-			variables["producciones_utilizadas"].append((no_terminales[indice_no_terminal], parte_derecha))
+		# if not variables["error"]:
+		# 	variables["producciones_utilizadas"].append(producciones[indice_no_terminal])
 
 	def esFinDeCadena():
 		simbolo_apuntado = getCurrentToken()
@@ -277,9 +282,7 @@ def parser(input):
 			print()
 
 
-	tokens = lexer(input)
-	# print(tokens)
-	tokens.append(("#", "FinDeCadena"))
+	tokens = getTokenTypes()
 	variables = {
 		"pw" : 0,
 		"error" : False,
