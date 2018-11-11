@@ -1,6 +1,6 @@
 from Lexer import lexer
 
-terminales = [#terminales
+terminales = [ # Terminales
 		'ParOpen',
 		'ParClose',
 		'BraOpen',
@@ -229,10 +229,10 @@ def parser(input):
 		backtrack_pivot = variables["pw"]
 		for simbolo in parte_derecha:
 			if esTerminal(simbolo):
-				if (variables["tokens"][variables["pw"]] == simbolo):
+				if variables["tokens"][variables["pw"]] == simbolo:
 					variables["pw"] += 1
 				else:
-					variables["pw"] = backtrack_pivot
+					variables["error"] = True
 					break
 			if esNoTerminal(simbolo):
 				indice_no_terminal = no_terminales.index(simbolo)
@@ -245,9 +245,11 @@ def parser(input):
 		variables["error"] = False
 		for parte_derecha in producciones[indice_no_terminal]:
 			variables["error"] = False
+			backtrack_pivot = variables["pw"]
 			Procesar(parte_derecha)
 			if variables["error"]:
-				break
+				variables["pw"] = backtrack_pivot
+				variables["error"] = False
 
 	def esFinDeCadena():
 		return (len(variables["tokens"]) - 1) == variables["pw"]
@@ -261,10 +263,16 @@ def parser(input):
 	variables["tokens"] = getTokenTypes(tokens)
 	PNi(0)
 	if not variables["error"] and esFinDeCadena():
-		print('true')
+		print('La cadena:')
+		print('	', input)
+		print('es ACEPTADA')
+		print()
 		return True
 	else:
-		print('false')
+		print('La cadena:')
+		print('	', input)
+		print('NO es ACEPTADA')
+		print()
 		return False
 
 
@@ -281,7 +289,6 @@ tests = [
 			("123abc", False),
 			("a := 3 ++++ 2;", False),
 			("float gatito(a > b);", False)
-
 		]
 
 for (input, output) in tests:
