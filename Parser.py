@@ -252,6 +252,11 @@ def parser(input):
 				variables["pw"] = backtrack_pivot
 				variables["error"] = False
 
+	def esFinDeCadena():
+		simbolo_apuntado = variables["tokens"][variables["pw"]][0]
+		return simbolo_apuntado == "#"
+
+
 	tokens = lexer(input)
 	tokens.append(("#", "FinDeCadena"))
 	variables = {
@@ -260,8 +265,7 @@ def parser(input):
 		"tokens" : tokens
 	}
 	PNi(0)
-	simbolo_apuntado = variables["tokens"][variables["pw"]][0]
-	if not variables["error"] and simbolo_apuntado == "#":
+	if not variables["error"] and esFinDeCadena():
 		print('La cadena:')
 		print('	', input)
 		print('es ACEPTADA')
