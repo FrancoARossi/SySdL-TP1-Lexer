@@ -239,7 +239,6 @@ def parser(input):
 			if esTerminal(simbolo):
 				if simbolo_apuntado == simbolo:
 					variables["pw"] += 1
-					# variables["producciones_utilizadas"].append(simbolo)
 				else:
 					variables["error"] = True
 					break
@@ -256,17 +255,18 @@ def parser(input):
 			Procesar(parte_derecha)
 			if variables["error"]:
 				variables["pw"] = backtrack_pivot
-				variables["error"] = False
-
+				# variables["error"] = False
 		if not variables["error"]:
 			variables["producciones_utilizadas"].append((no_terminales[indice_no_terminal], parte_derecha))
-		# 	variables["producciones_utilizadas"].append(producciones[indice_no_terminal])
+		else:
+			variables["error"] = False
 
 	def esFinDeCadena():
 		simbolo_apuntado = getCurrentToken()
 		return simbolo_apuntado == "#"
 
 	def printOutput(aceptada):
+		variables["producciones_utilizadas"].reverse()
 		if aceptada:
 			print('La cadena:\n')
 			print('	', input,'\n')
@@ -280,7 +280,9 @@ def parser(input):
 			print('	', input,'\n')
 			print('NO es ACEPTADA')
 			print()
-
+			for (VN, produ) in variables["producciones_utilizadas"]:
+				print('	', VN, '->', produ)
+			print()
 
 	tokens = getTokenTypes()
 	variables = {
