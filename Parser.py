@@ -70,7 +70,7 @@ producciones = [ # Producciones
 		],
 		[ # <Sentencia>
 			[
-				"<SentFor>"
+				"SemiColon"
 			],
 			[
 				"<SentWhile>"
@@ -88,7 +88,7 @@ producciones = [ # Producciones
 				"<Declaracion>"
 			],
 			[
-				"SemiColon"
+			"<SentFor>"
 			]
 		],
 		[ # <SentFor>
@@ -125,10 +125,10 @@ producciones = [ # Producciones
 		],
 		[ # <ListaSentencia>
 			[
-				"<Sentencia>", "<ListSentencia>"
+				"<Sentencia>"
 			],
 			[
-				"<Sentencia>"
+				"<Sentencia>", "<ListSentencia>"
 			]
 		],
 		[ # <Expr>
@@ -141,10 +141,10 @@ producciones = [ # Producciones
 		],
 		[ # <ValorR>
 			[
-				"<Mag>", "<AuxVR>"
+				"<Mag>"
 			],
 			[
-				"<Mag>"
+				"<Mag>", "<AuxVR>"
 			]
 		],
 		[ # <AuxVR>
@@ -157,10 +157,10 @@ producciones = [ # Producciones
 		],
 		[ # <Mag>
 			[
-				"<Termino>", "<AuxM>"
+				"<Termino>"
 			],
 			[
-				"<Termino>"
+				"<Termino>", "<AuxM>"
 			]
 		],
 		[ # <AuxM>
@@ -173,10 +173,10 @@ producciones = [ # Producciones
 		],
 		[ # <Termino>
 			[
-				"<Factor>", "<AuxT>"
+				"<Factor>"
 			],
 			[
-				"<Factor>"
+				"<Factor>", "<AuxT>"
 			]
 		],
 		[ # <AuxT>
@@ -205,15 +205,6 @@ producciones = [ # Producciones
 			]
 		]
 	]
-
-
-# Captura solo el token de la salida del Lexer e ignora el lexeme
-# def getTokenTypes(tokens):
-# 	tokentypes = []
-# 	for (token, lexeme) in tokens:
-# 		tokentypes.append(token)
-# 	tokentypes.append("#")
-# 	return tokentypes
 
 # Funcion principal
 def parser(input):
@@ -255,7 +246,6 @@ def parser(input):
 			Procesar(parte_derecha)
 			if variables["error"]:
 				variables["pw"] = backtrack_pivot
-				# variables["error"] = False
 		if not variables["error"]:
 			variables["producciones_utilizadas"].append((no_terminales[indice_no_terminal], parte_derecha))
 		else:
@@ -271,18 +261,13 @@ def parser(input):
 			print('La cadena:\n')
 			print('	', input,'\n')
 			print('es ACEPTADA con:')
-			print()
-			for (VN, produ) in variables["producciones_utilizadas"]:
-				print('	', VN, '->', produ)
-			print()
+			# for (VN, produ) in variables["producciones_utilizadas"]:
+			# 	print('	', VN, '->', produ)
 		else:
 			print('La cadena:\n')
 			print('	', input,'\n')
 			print('NO es ACEPTADA')
-			print()
-			for (VN, produ) in variables["producciones_utilizadas"]:
-				print('	', VN, '->', produ)
-			print()
+		print('\n-----------------------------------------------------------\n')
 
 	tokens = getTokenTypes()
 	variables = {
@@ -303,16 +288,16 @@ def parser(input):
 ################################################################################
 # Asserts
 tests = [
-			# ("int miFuncion(float a,int b){ for(c:=9, x := y,) a := 2+2;}", True),
-			# ("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
-			# ("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
-			# ("float testing(int x){ if(x:=9, x := y,) a := 2+2; else (z := 33) z := 11;}", True),
+			("int miFuncion(float a,int b){ for(c:=9, x := y,) a := 2+2;}", True),
+			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
+			("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
+			("float testing(int x){ if(x:=9, x := y,) a := 2+2; else (z := 33) z := 11;}", True),
 			("int hola(float a){ perro := 8;}", True),
-			# ("int estonoanda(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
-			# ("float a (:= 3  2;)", False),
-			# ("123abc", False),
-			# ("a := 3 ++++ 2;", False),
-			# ("float gatito(a > b);", False)
+			("int estonoanda(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
+			("float a (:= 3  2;)", False),
+			("123abc", False),
+			("a := 3 ++++ 2;", False),
+			("float gatito(a > b);", False)
 		]
 
 for (input, output) in tests:
