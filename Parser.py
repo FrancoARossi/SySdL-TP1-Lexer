@@ -246,7 +246,6 @@ def parser(input):
 			if esNoTerminal(simbolo):
 				indice_no_terminal = no_terminales.index(simbolo)
 				PNi(indice_no_terminal)
-				#variables["producciones_utilizadas"].append((no_terminales[indice_no_terminal], parte_derecha))
 
 	# Funcion para cada No terminal
 	def PNi(indice_no_terminal):
@@ -259,7 +258,8 @@ def parser(input):
 				variables["pw"] = backtrack_pivot
 				variables["error"] = False
 
-		# if not variables["error"]:
+		if not variables["error"]:
+			variables["producciones_utilizadas"].append((no_terminales[indice_no_terminal], parte_derecha))
 		# 	variables["producciones_utilizadas"].append(producciones[indice_no_terminal])
 
 	def esFinDeCadena():
@@ -268,16 +268,16 @@ def parser(input):
 
 	def printOutput(aceptada):
 		if aceptada:
-			print('La cadena:')
-			print('	', input)
+			print('La cadena:\n')
+			print('	', input,'\n')
 			print('es ACEPTADA con:')
 			print()
 			for (VN, produ) in variables["producciones_utilizadas"]:
-				print(VN, '->', produ)
+				print('	', VN, '->', produ)
 			print()
 		else:
-			print('La cadena:')
-			print('	', input)
+			print('La cadena:\n')
+			print('	', input,'\n')
 			print('NO es ACEPTADA')
 			print()
 
