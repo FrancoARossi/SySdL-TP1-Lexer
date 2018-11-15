@@ -234,10 +234,6 @@ def parser(input):
 	def Procesar(parte_derecha):
 		for simbolo in parte_derecha:
 			simbolo_apuntado = getCurrentToken()
-			print("Parte derecha:", parte_derecha)
-			print("Simbolo de parte derecha:", simbolo)
-			print("Simbolo apuntado:", simbolo_apuntado)
-			print("---")
 			if esTerminal(simbolo):
 				if simbolo_apuntado == simbolo:
 					variables["pw"] += 1
