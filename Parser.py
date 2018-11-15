@@ -44,10 +44,10 @@ producciones = [ # Producciones
 		],
 		[ # <ListaArgumentos>
 			[
-				"<Argumento>"
+				"<Argumento>", "Comma", "<ListaArgumentos>"
 			],
 			[
-				"<Argumento>", "Comma", "<ListaArgumentos>"
+				"<Argumento>"
 			]
 		],
 		[ # <Argumento>
@@ -76,9 +76,6 @@ producciones = [ # Producciones
 				"<SentWhile>"
 			],
 			[
-				"<Expr>", "SemiColon"
-			],
-			[
 				"<SentIf>"
 			],
 			[
@@ -88,7 +85,10 @@ producciones = [ # Producciones
 				"<Declaracion>"
 			],
 			[
-			"<SentFor>"
+				"<SentFor>"
+			],
+			[
+				"<Expr>", "SemiColon"
 			]
 		],
 		[ # <SentFor>
@@ -96,10 +96,10 @@ producciones = [ # Producciones
 				"Reservada", "ParOpen", "<Expr>", "Comma", "<Expr>", "Comma", "<Expr>", "ParClose", "<Sentencia>"
 			],
 			[
-				"Reservada", "ParOpen", "<Expr>", "Comma", "Comma", "<Expr>", "ParClose", "<Sentencia>"
+				"Reservada", "ParOpen", "<Expr>", "Comma", "<Expr>", "Comma", "ParClose", "<Sentencia>"
 			],
 			[
-				"Reservada", "ParOpen", "<Expr>", "Comma", "<Expr>", "Comma", "ParClose", "<Sentencia>"
+				"Reservada", "ParOpen", "<Expr>", "Comma", "Comma", "<Expr>", "ParClose", "<Sentencia>"
 			],
 			[
 				"Reservada", "ParOpen", "<Expr>", "Comma", "Comma"," ParClose", "<Sentencia>"
@@ -125,10 +125,10 @@ producciones = [ # Producciones
 		],
 		[ # <ListaSentencia>
 			[
-				"<Sentencia>"
+				"<Sentencia>", "<ListSentencia>"
 			],
 			[
-				"<Sentencia>", "<ListSentencia>"
+				"<Sentencia>"
 			]
 		],
 		[ # <Expr>
@@ -141,10 +141,10 @@ producciones = [ # Producciones
 		],
 		[ # <ValorR>
 			[
-				"<Mag>"
+				"<Mag>", "<AuxVR>"
 			],
 			[
-				"<Mag>", "<AuxVR>"
+				"<Mag>"
 			]
 		],
 		[ # <AuxVR>
@@ -157,10 +157,10 @@ producciones = [ # Producciones
 		],
 		[ # <Mag>
 			[
-				"<Termino>"
+				"<Termino>", "<AuxM>"
 			],
 			[
-				"<Termino>", "<AuxM>"
+				"<Termino>"
 			]
 		],
 		[ # <AuxM>
@@ -173,10 +173,10 @@ producciones = [ # Producciones
 		],
 		[ # <Termino>
 			[
-				"<Factor>"
+				"<Factor>", "<AuxT>"
 			],
 			[
-				"<Factor>", "<AuxT>"
+				"<Factor>"
 			]
 		],
 		[ # <AuxT>
@@ -243,20 +243,19 @@ def parser(input):
 					variables["pw"] += 1
 				else:
 					variables["error"] = True
+					break
 			if esNoTerminal(simbolo):
 				indice_no_terminal = no_terminales.index(simbolo)
 				PNi(indice_no_terminal)
-			if variables["error"]:
-				break
 
 	# Funcion para cada No terminal
 	def PNi(indice_no_terminal):
-		backtrack_pivot = variables["pw"]
+		variables["backtrack_pivot"] = variables["pw"]
 		for parte_derecha in producciones[indice_no_terminal]:
 			variables["error"] = False
 			Procesar(parte_derecha)
 			if variables["error"]:
-				variables["pw"] = backtrack_pivot
+				variables["pw"] = variables["backtrack_pivot"]
 			else:
 				guardarProduccion(indice_no_terminal, parte_derecha)
 				break
