@@ -1,6 +1,7 @@
 from Lexer import lexer
 
-terminales = [ # Terminales
+#Terminales
+Terminales = [ # Terminales
 		'ParOpen',
 		'ParClose',
 		'BraOpen',
@@ -14,7 +15,8 @@ terminales = [ # Terminales
 		'OpRel'
 	  ]
 
-no_terminales = [ # No terminales
+# No Terminales
+noTerminales = [ # No terminales
 		"<Funcion>",
 		"<ListaArgumentos>",
 		"<Argumento>",
@@ -206,85 +208,73 @@ producciones = { # Producciones
 		]
 	}
 
-# Funcion principal
-def parser(input):
+def leerCadena(src):
+	tokens = lexer(src)
+	tokens.append(('$', 'FIN DE CADENA'))
+	return tokens
 
-	def getTokenTypes():
-		tokens = lexer(input)
-		tokens.append(("#", "FinDeCadena"))
-		return tokens
-
-	def getCurrentToken():
-		return variables["tokens"][variables["pw"]][0]
-
-	def esTerminal(simbolo):
-		return simbolo in terminales
-
-	def esNoTerminal(simbolo):
-		return simbolo in no_terminales
-
-	def guardarProduccion(noTerminal, parte_derecha):
-		variables["producciones_utilizadas"].append((noTerminal, parte_derecha))
-
-	def esFinDeCadena():
-		simbolo_apuntado = getCurrentToken()
-		return simbolo_apuntado == "#"
-
-	# Procesamiento de Producciones
-	def Procesar(parte_derecha):
-		for simbolo in parte_derecha:
-			simbolo_apuntado = getCurrentToken()
-			# print("Parte derecha:", parte_derecha)
-			# print("Simbolo de parte derecha:", simbolo)
-			# print("Simbolo apuntado:", simbolo_apuntado)
-			# print("---")
-			if esTerminal(simbolo):
-				if simbolo_apuntado == simbolo:
-					variables["pw"] += 1
-				else:
-					variables["error"] = True
-					break
-			elif esNoTerminal(simbolo):
-				PNi(simbolo)
-
-	# Funcion para cada No terminal
-	def PNi(noTerminal):
-		variables["backtrack_pivot"] = variables["pw"]
-		for parte_derecha in producciones[noTerminal]:
-			variables["error"] = False
-			Procesar(parte_derecha)
-			if variables["error"]:
-				variables["pw"] = variables["backtrack_pivot"]
-			else:
-				guardarProduccion(noTerminal, parte_derecha)
-				break
-
-	def printOutput(aceptada):
-		variables["producciones_utilizadas"].reverse()
-
-		if aceptada:
-			print('La cadena:\n')
-			print('	', input,'\n')
-			print('es ACEPTADA con:')
-			for (VN, produ) in variables["producciones_utilizadas"]:
-				print('	', VN, '->', produ)
+def procedimiento(noTerminal):
+	punteroAuxiliar = estado['puntero']
+	produccionesUsadas = estado['produccionesUsadas']
+	for parteDerecha in producciones[noTerminal]:
+		estado['error'] = False
+		procesar(parteDerecha)
+		if not estado['error']:
+			produccionesUsadas.append((noTerminal,parteDerecha))
+			break
 		else:
-			print('La cadena:\n')
-			print('	', input,'\n')
-			print('NO es ACEPTADA')
+			estado['puntero'] = punteroAuxiliar
 
-		print('\n-----------------------------------------------------------\n')
 
-	tokens = getTokenTypes()
-	variables = {
-		"pw" : 0,
-		"error" : False,
-		"tokens" : tokens,
-		"backtrack_pivot" : 0,
-		"producciones_utilizadas" : []
-	}
-	PNi("<Funcion>")
-	if not variables["error"] and esFinDeCadena():
+def procesar(parteDerecha):
+	for elemento in parteDerecha:
+		if elemento in Terminales:
+			cadena = estado['cadena']
+			puntero = estado['puntero']
+			posicion = 0
+			if elemento == cadena[puntero][posicion]:
+				estado['puntero'] = estado['puntero'] + 1
+			else:
+				estado['error'] = True
+		if elemento in noTerminales:
+			procedimiento(elemento)
+		if estado['error']:
+			break
+
+estado = {
+	'error':False,
+	'puntero':0,
+	'cadena':[],
+	'produccionesUsadas':[]
+}
+
+def printOutput(aceptada):
+	estado["produccionesUsadas"].reverse()
+
+	if aceptada:
+		print('La cadena:\n')
+		print('	', input,'\n')
+		print('es ACEPTADA con:')
+		for (VN, produ) in estado["produccionesUsadas"]:
+			print('	', VN, '->', produ)
+	else:
+		print('La cadena:\n')
+		print('	', input,'\n')
+		print('NO es ACEPTADA')
+
+	print('\n-----------------------------------------------------------\n')
+
+def parser(src) :
+	estado['puntero'] = 0
+	estado['produccionesUsadas'] = []
+	estado['cadena'] = leerCadena(src)
+	procedimiento('<Funcion>')
+	cadena = estado['cadena']
+	puntero = estado['puntero']
+	#Como la cadena de entrada es de la forma: "(INT,2)(id,hola)..."
+	#necesito el primero elemento de la tupla para comparar
+	posicionPorTokenizador = 0
+	if not estado['error'] and cadena[puntero][posicionPorTokenizador] == '$' :
 		printOutput(True)
 		return True
 	else:
